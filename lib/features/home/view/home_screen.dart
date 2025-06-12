@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/flipcard/flip_card.dart';
+import 'package:flutter_flip_card/flutter_flip_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,31 +13,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final controller = FlipCardController();
+
   DateTime _selectedDate = DateTime.now();
   Map<String, double> readingTimes = {
-    '2024-06-10': 30,
-    '2024-06-11': 60,
-    '2024-06-12': 45,
-    '2024-06-13': 0,
+    '2024-06-10': 130,
+    '2024-06-11': 160,
+    '2024-06-12': 95,
+    '2024-06-13': 100,
     // etc.
   };
 
-  List<double> getWeekData(DateTime date) {
-    DateTime monday = date.subtract(Duration(days: date.weekday - 1));
-    return List.generate(7, (index) {
-      String dayKey = DateTime(
-        monday.year,
-        monday.month,
-        monday.day + index,
-      ).toIso8601String().substring(0, 10);
-      return readingTimes[dayKey] ?? 0;
-    });
-  }
+  // List<double> getWeekData(DateTime date) {
+  //   DateTime monday = date.subtract(Duration(days: date.weekday - 1));
+  //   return List.generate(7, (index) {
+  //     String dayKey = monday
+  //         .add(Duration(days: index))
+  //         .toIso8601String()
+  //         .substring(0, 10);
+  //     print("-----------------${readingTimes[dayKey]}");
+  //     return readingTimes[dayKey] ?? 0;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    List<double> weekData = getWeekData(_selectedDate);
+    List<double> weekData = [100, 129, 80, 96, 200, 100, 132];
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -83,64 +87,128 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      theme.colorScheme.tertiary,
-                      theme.colorScheme.secondary,
-                      theme.colorScheme.primary,
-                    ],
-                    transform: const GradientRotation(pi / 4),
+              SizedBox(height: MediaQuery.of(context).size.height / 45),
+              FlipCard(
+                controller: controller,
+                rotateSide: RotateSide.right,
+                axis: FlipAxis.vertical,
+                onTapFlipping: true,
+                frontWidget: Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.tertiary,
+                        theme.colorScheme.secondary,
+                        theme.colorScheme.primary,
+                      ],
+                      transform: const GradientRotation(pi / 4),
+                    ),
+                    borderRadius: BorderRadius.circular(25),
                   ),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 20,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Total Balance",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        "\$ 4800.00",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 45,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.currency_exchange_rounded,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 20,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Total Balance",
+                          style: TextStyle(
                             color: Colors.white,
-                            size: 30,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 10),
+                        Text(
+                          "\$ 4800.00",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 45,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.currency_exchange_rounded,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                backWidget: Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     theme.colorScheme.tertiary,
+                    //     theme.colorScheme.secondary,
+                    //     theme.colorScheme.primary,
+                    //   ],
+                    //   transform: const GradientRotation(pi / 4),
+                    // ),
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 20,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Total Balance",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "\$ 4800.00",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 45,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.currency_exchange_rounded,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 18),
+
+              SizedBox(height: MediaQuery.of(context).size.height / 39),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
@@ -159,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, "/all_graphics");
+                        Navigator.pushNamed(context, "/history");
                       },
                       child: Text(
                         "View All",
@@ -174,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              ///
+              ///Graph----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -183,6 +251,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 320,
                 child: BarChart(
                   BarChartData(
+                    borderData: FlBorderData(show: false),
+                    barTouchData: BarTouchData(enabled: false),
                     maxY: 200,
                     barGroups: List.generate(7, (index) {
                       return BarChartGroupData(
@@ -190,6 +260,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         barRods: [
                           BarChartRodData(
                             toY: weekData[index],
+                            borderRadius: BorderRadius.circular(30),
+                            gradient: LinearGradient(
+                              colors: [
+                                theme.colorScheme.tertiary,
+                                theme.colorScheme.secondary,
+                                theme.colorScheme.primary,
+                              ],
+                              transform: GradientRotation(pi / 40),
+                            ),
+                            width: 10,
+                            fromY: 0,
+                            backDrawRodData: BackgroundBarChartRodData(
+                              show: true,
+                              toY: 5,
+                              color: Colors.grey[300],
+                            ),
                             color: (_selectedDate.weekday - 1) == index
                                 ? Colors.blue
                                 : Colors.grey,
@@ -211,7 +297,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               'Sa',
                               'Su',
                             ];
-                            return Text(days[value.toInt()]);
+                            return Text(
+                              days[value.toInt()],
+                              style: TextStyle(
+                                color: theme.colorScheme.outline,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
                           },
                         ),
                       ),
