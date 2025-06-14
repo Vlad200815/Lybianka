@@ -1,9 +1,8 @@
 import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/flipcard/flip_card.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,13 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
   final controller = FlipCardController();
 
   DateTime _selectedDate = DateTime.now();
-  Map<String, double> readingTimes = {
-    '2024-06-10': 130,
-    '2024-06-11': 160,
-    '2024-06-12': 95,
-    '2024-06-13': 100,
-    // etc.
-  };
+  // Map<String, double> readingTimes = {
+  //   '2024-06-10': 130,
+  //   '2024-06-11': 160,
+  //   '2024-06-12': 95,
+  //   '2024-06-13': 100,
+  //   // etc.
+  // };
 
   // List<double> getWeekData(DateTime date) {
   //   DateTime monday = date.subtract(Duration(days: date.weekday - 1));
@@ -59,7 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: Center(
-                      child: Image.asset("assets/face.png", height: 35),
+                      child: Image.asset(
+                        "assets/appearences/man.png",
+                        height: 35,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -84,6 +86,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  SizedBox(width: MediaQuery.of(context).size.width / 3.5),
+                  IconButton(
+                    onPressed: () => Navigator.pushNamed(context, "/advise"),
+                    icon: Icon(Icons.lightbulb, color: Colors.yellow, size: 30),
                   ),
                 ],
               ),
@@ -133,18 +140,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 45,
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.currency_exchange_rounded,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(height: 12),
+                        // Align(
+                        //   alignment: Alignment.bottomRight,
+                        //   child: IconButton(
+                        //     onPressed: () {},
+                        //     icon: Icon(
+                        //       Icons.currency_exchange_rounded,
+                        //       color: Colors.white,
+                        //       size: 30,
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -174,16 +181,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Total Balance",
+                          "Постав ціль",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
-                            fontSize: 18,
+                            fontSize: 22,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 5),
                         Text(
-                          "\$ 4800.00",
+                          "0%",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
@@ -194,9 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Align(
                           alignment: Alignment.bottomRight,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: () =>
+                                Navigator.pushNamed(context, "/set_aim"),
                             icon: Icon(
-                              Icons.currency_exchange_rounded,
+                              Icons.outlined_flag_rounded,
                               color: Colors.white,
                               size: 30,
                             ),

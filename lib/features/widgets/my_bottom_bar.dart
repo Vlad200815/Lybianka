@@ -46,7 +46,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
               transform: const GradientRotation(pi / 4),
             ),
           ),
-          child: const Icon(CupertinoIcons.add),
+          child: const Icon(CupertinoIcons.add, size: 30),
         ),
       ),
       body: _selectedIndex == 0 ? HomeScreen() : SettingsScreen(),

@@ -40,6 +40,7 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   intl: ^0.20.2
   flutter_flip_card: ^0.0.6
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
@@ -65,8 +66,44 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/face.png
-    - assets/strabbery.png
+  #Appearences
+    - assets/appearences/angel.png
+    - assets/appearences/baby.png
+    - assets/appearences/bearded_woman.png
+    - assets/appearences/blond_man.png
+    - assets/appearences/blond_woman.png
+    - assets/appearences/bride.png
+    - assets/appearences/man.png
+    - assets/appearences/curly_man.png
+    - assets/appearences/curly_woman.png
+    - assets/appearences/dancer.png
+    - assets/appearences/finger.png
+    - assets/appearences/girl.png
+    - assets/appearences/gorila.png
+    - assets/appearences/grey_haired_man.png
+    - assets/appearences/hand.png
+    - assets/appearences/lion.png
+    - assets/appearences/ninji.png
+    - assets/appearences/person.png
+    - assets/appearences/poland.png
+    - assets/appearences/programmer.png
+    - assets/appearences/queen.png
+    - assets/appearences/ukraine.png
+    - assets/appearences/unicorn.png
+    - assets/appearences/whale.png
+    - assets/appearences/wolf.png
+  #Berries
+    - assets/berries/strabbery.png
+    - assets/berries/blue_berries.png
+    - assets/berries/cherry.png
+    - assets/berries/chily.png
+    - assets/berries/cucumber.png
+    - assets/berries/green_apple.png
+    - assets/berries/mushroom.png
+    - assets/berries/pear.png
+    - assets/berries/pitch.png
+    - assets/berries/red_apple.png
+    - assets/berries/tomato.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

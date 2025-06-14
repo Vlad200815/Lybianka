@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../history.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
@@ -8,25 +10,28 @@ class HistoryScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
-      appBar: AppBar(
-        title: Text(
-          "History",
-          style: TextStyle(
-            color: theme.colorScheme.onSurface,
-            fontWeight: FontWeight.bold,
-            fontSize: 30,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60),
+        child: AppBar(
+          title: Text(
+            "History",
+            style: TextStyle(
+              color: theme.colorScheme.onSurface,
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+            ),
           ),
-        ),
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.chevron_left_sharp,
-            color: theme.colorScheme.outline,
-            size: 35,
+          elevation: 0,
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.chevron_left_sharp,
+              color: theme.colorScheme.outline,
+              size: 30,
+            ),
           ),
         ),
       ),
@@ -53,7 +58,7 @@ class HistoryScreen extends StatelessWidget {
                         color: theme.colorScheme.tertiary,
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Image.asset("assets/strabbery.png"),
+                      child: Image.asset("assets/berries/strabbery.png"),
                     ),
                   ),
                   SizedBox(width: MediaQuery.of(context).size.width / 18),
@@ -74,7 +79,7 @@ class HistoryScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "+ 1000\$",
+                          "+ 1000₴",
                           style: TextStyle(
                             color: Colors.green,
                             fontSize: 14,
@@ -101,8 +106,32 @@ class HistoryScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.edit_outlined),
+                        onPressed: () {
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (cont) {
+                              return SizedBox(
+                                height: 100,
+                                width: 100,
+                                child: CupertinoAlertDialog(
+                                  content: MenuOptions(),
+                                  actions: [
+                                    IconButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      icon: Icon(
+                                        Icons.close_sharp,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(Icons.more_vert),
                       ),
                     ),
                   ),

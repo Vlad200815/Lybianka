@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:lybianka/features/add_money/widgets/gradient_button.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
 
+import '../../widgets/widgets.dart';
+
 class AddMoneyScreen extends StatefulWidget {
-  AddMoneyScreen({super.key});
+  const AddMoneyScreen({super.key});
 
   @override
   State<AddMoneyScreen> createState() => _AddMoneyScreenState();
@@ -60,7 +61,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 12),
               Text(
-                "Add Money",
+                "Додай гроші",
                 style: TextStyle(
                   color: theme.colorScheme.onSurface,
                   fontSize: 30,

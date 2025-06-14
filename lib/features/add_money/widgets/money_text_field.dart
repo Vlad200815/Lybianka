@@ -17,8 +17,7 @@ class MoneyTextField extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
           prefixIcon: const Icon(
-            //TODO: change dollar into hyrivna
-            FontAwesomeIcons.dollarSign,
+            FontAwesomeIcons.hryvniaSign,
             size: 16,
             color: Colors.grey,
           ),
