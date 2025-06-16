@@ -54,6 +54,95 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
     _dateFieldController.text = formttedDate;
   }
 
+  void showBerryPickerDialog(BuildContext context) {
+    final theme = Theme.of(context);
+    int tempSelectedBerry = selectedBerry;
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return CupertinoAlertDialog(
+              title: Text(
+                "Іконки",
+                style: TextStyle(
+                  color: theme.colorScheme.onSurface,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              content: SizedBox(
+                height: 175,
+                child: GridView.builder(
+                  itemCount: berries.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setDialogState(() {
+                          tempSelectedBerry = index;
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(2.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: tempSelectedBerry == index
+                                  ? Colors.green
+                                  : Colors.grey.shade300,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Image.asset(berries[index], scale: 12),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              actions: [
+                CupertinoButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedBerry = tempSelectedBerry;
+                      _iconFieldController.text = berries[selectedBerry]
+                          .substring(
+                            berries[selectedBerry].lastIndexOf('/') + 1,
+                            berries[selectedBerry].lastIndexOf('.'),
+                          );
+                    });
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Вибрати",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                CupertinoButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "Скасувати",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -106,112 +195,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                 readOnly: true,
                 controller: _iconFieldController,
                 suffixIcon: GestureDetector(
-                  onTap: () {
-                    showCupertinoDialog(
-                      context: context,
-                      builder: (context) {
-                        return StatefulBuilder(
-                          builder: (context, setState) {
-                            return CupertinoAlertDialog(
-                              title: Text(
-                                "Іконки",
-                                style: TextStyle(
-                                  color: theme.colorScheme.onSurface,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              content: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8,
-                                ),
-                                child: SizedBox(
-                                  height: 175,
-                                  child: GridView.builder(
-                                    itemCount: 12,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 4,
-                                        ),
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            String path = berries[index];
-                                            setState(() {
-                                              selectedBerry = index;
-                                              _iconFieldController.text = path
-                                                  .substring(
-                                                    path.lastIndexOf('/') + 1,
-                                                    path.lastIndexOf('.'),
-                                                  );
-                                            });
-                                          },
-                                          child: Container(
-                                            width: 80,
-                                            height: 80,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: selectedBerry == index
-                                                    ? Colors.green
-                                                    : Colors.grey.shade300,
-                                                width: 2,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: const Color.fromARGB(
-                                                255,
-                                                232,
-                                                249,
-                                                254,
-                                              ),
-                                            ),
-                                            child: Image.asset(
-                                              berries[index],
-                                              scale: 12,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              actions: [
-                                CupertinoButton(
-                                  onPressed: () {
-                                    //TODO: saving logic
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    "Вибрати",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                CupertinoButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    "Скасувати",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
-                  },
+                  onTap: () => showBerryPickerDialog(context),
                   child: Icon(
                     Icons.expand_more,
                     color: theme.colorScheme.outline,
