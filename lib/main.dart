@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lybianka/features/advise/views/advise_screen.dart';
 import 'package:lybianka/features/set_aim/views/set_aim_screen.dart';
 import 'package:lybianka/theme/theme.dart';
@@ -7,7 +8,13 @@ import 'features/history/history.dart';
 import 'features/settings/settings.dart';
 import 'features/widgets/widgets.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(const MyApp());
 }
 

@@ -104,6 +104,7 @@ flutter:
     - assets/berries/pitch.png
     - assets/berries/red_apple.png
     - assets/berries/tomato.png
+    - assets/berries/banana.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

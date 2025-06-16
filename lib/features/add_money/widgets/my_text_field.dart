@@ -9,6 +9,7 @@ class MyTextField extends StatelessWidget {
     required this.fillColor,
     this.onTap,
     this.readOnly,
+    this.suffixIcon,
   });
 
   final TextEditingController controller;
@@ -17,6 +18,7 @@ class MyTextField extends StatelessWidget {
   void Function()? onTap;
   bool? readOnly;
   final Color fillColor;
+  Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class MyTextField extends StatelessWidget {
           filled: true,
           fillColor: fillColor,
           prefixIcon: icon,
-
+          suffixIcon: suffixIcon,
           hintText: hint,
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.vertical(
