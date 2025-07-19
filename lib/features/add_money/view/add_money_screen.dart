@@ -4,7 +4,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
-
 import '../../widgets/widgets.dart';
 
 class AddMoneyScreen extends StatefulWidget {
@@ -25,6 +24,9 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
 
   Color pickerColor = Color.fromARGB(255, 255, 255, 255);
   Color currentColor = Color(0xff443a49);
+  bool isProfit = false;
+  bool isExpanse = false;
+  // Color colors = Color(4292352281);
 
   List<String> berries = [
     "assets/berries/strabbery.png",
@@ -50,7 +52,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   @override
   void initState() {
     super.initState();
-    String formttedDate = DateFormat('yyyy/MM/dd').format(now);
+    String formttedDate = DateFormat('dd/MM/yyyy').format(now);
     _dateFieldController.text = formttedDate;
   }
 
@@ -113,7 +115,8 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                           .substring(
                             berries[selectedBerry].lastIndexOf('/') + 1,
                             berries[selectedBerry].lastIndexOf('.'),
-                          );
+                          )
+                          .replaceAll("_", " ");
                     });
                     Navigator.pop(context);
                   },
@@ -167,7 +170,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 12),
+              SizedBox(height: MediaQuery.of(context).size.height / 24),
               Text(
                 "Додай гроші",
                 style: TextStyle(
@@ -176,7 +179,72 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 35),
+              SizedBox(height: MediaQuery.of(context).size.height / 70),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.green,
+                      border: isProfit
+                          ? Border.all(color: Colors.black, width: 2)
+                          : Border(),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isProfit = true;
+                          isExpanse = false;
+                        });
+                      },
+                      child: Center(
+                        child: Text(
+                          "+",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.red,
+                      border: isExpanse
+                          ? Border.all(color: Colors.black, width: 2)
+                          : Border(),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isProfit = false;
+                          isExpanse = true;
+                        });
+                      },
+                      child: Center(
+                        child: Text(
+                          "—",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 70),
               MoneyTextField(moneyFieldController: _moneyFieldController),
               SizedBox(height: MediaQuery.of(context).size.width / 9),
               MyTextField(
@@ -234,6 +302,9 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                 ElevatedButton(
                                   child: const Text('Got it'),
                                   onPressed: () {
+                                    debugPrint(
+                                      "--------------------${pickerColor.value}-------------------------",
+                                    );
                                     setState(() => currentColor = pickerColor);
                                     Navigator.of(context).pop();
                                   },
@@ -265,7 +336,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 8),
+              SizedBox(height: MediaQuery.of(context).size.height / 9),
               GradientButton(onPressed: () => Navigator.pop(context)),
             ],
           ),

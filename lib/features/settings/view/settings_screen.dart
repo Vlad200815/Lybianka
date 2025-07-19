@@ -100,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             ),
                           ),
                           Text(
-                            "@svg110308",
+                            "svg110308@gmail.com",
                             style: TextStyle(
                               color: theme.colorScheme.outline,
                               fontSize: 15,

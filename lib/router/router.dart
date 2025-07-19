@@ -1,0 +1,19 @@
+import 'package:flutter/material.dart';
+import '../features/add_money/add_money.dart';
+import '../features/advise/advise.dart';
+import '../features/history/history.dart';
+import '../features/set_aim/set_aim.dart';
+import '../features/settings/settings.dart';
+import '../features/widgets/widgets.dart';
+
+String? initialRoute = "/";
+
+Map<String, Widget Function(BuildContext)> routes = {
+  "/": (context) => const MyBottomBar(),
+  "/history": (context) => const HistoryScreen(),
+  "/add_money": (context) => AddMoneyScreen(),
+  "/settings": (context) => const SettingsScreen(),
+  "/settings/edit_profile": (context) => const EditProfileScreen(),
+  "/advise": (context) => const AdviseScreen(),
+  "/set_aim": (context) => const SetAimScreen(),
+};
