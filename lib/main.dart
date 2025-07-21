@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
+import 'package:lybianka/repositories/category_repository/category_repository_export.dart';
 import 'package:lybianka/router/router.dart';
 import 'package:lybianka/theme/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +13,19 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+
+  final preferences = await SharedPreferences.getInstance();
+  final categoryRepository = CategoryRepository(preferences: preferences);
+
+  //for cleaning shared preferences if needed
+  // await preferences.clear();
+
+  runApp(
+    BlocProvider(
+      create: (context) => CategoryBloc(categoryRepository: categoryRepository),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

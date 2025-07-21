@@ -1,9 +1,24 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
 import '../history.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  @override
+  void initState() {
+    context.read<CategoryBloc>().add(OnGetCategoryEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,109 +50,166 @@ class HistoryScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 20,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
-              width: double.infinity,
-              height: 80,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.onPrimary,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.tertiary,
-                        borderRadius: BorderRadius.circular(30),
+      body: BlocConsumer<CategoryBloc, CategoryState>(
+        listener: (context, state) {
+          if (state is RemoveCategorySuccessState) {
+            context.read<CategoryBloc>().add(OnGetCategoryEvent());
+          }
+        },
+        builder: (context, state) {
+          return BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              if (state is GetCategorySuccessState) {
+                final category = state.categories;
+                return ListView.builder(
+                  itemCount: state.categories.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 5,
                       ),
-                      child: Image.asset("assets/berries/strabbery.png"),
-                    ),
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width / 18),
-                  Center(
-                    child: Text(
-                      "Клубніка",
-                      style: TextStyle(
-                        color: theme.colorScheme.onSurface,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: MediaQuery.of(context).size.width / 25),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "+ 1000₴",
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      child: Container(
+                        width: double.infinity,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.onPrimary,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        Text(
-                          "2025/09/11",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 240, 250, 255),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          showCupertinoDialog(
-                            context: context,
-                            builder: (cont) {
-                              return SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: CupertinoAlertDialog(
-                                  content: MenuOptions(),
-                                  actions: [
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: Icon(
-                                        Icons.close_sharp,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              child: Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: Color(category[index].color),
+                                  borderRadius: BorderRadius.circular(30),
                                 ),
-                              );
-                            },
-                          );
-                        },
-                        icon: Icon(Icons.more_vert),
+                                child: Image.asset(category[index].icon),
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 18,
+                            ),
+                            Center(
+                              child: Text(
+                                category[index].description,
+                                style: TextStyle(
+                                  color: theme.colorScheme.onSurface,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 25,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    category[index].isProfit
+                                        ? "+${category[index].money}₴"
+                                        : "-${category[index].money}₴",
+                                    style: TextStyle(
+                                      color: category[index].isProfit
+                                          ? Colors.green
+                                          : Colors.red,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    category[index].date,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Center(
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(
+                                    255,
+                                    240,
+                                    250,
+                                    255,
+                                  ),
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    showCupertinoDialog(
+                                      context: context,
+                                      builder: (cont) {
+                                        return SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child: CupertinoAlertDialog(
+                                            content: MenuOptions(
+                                              id: category[index].id,
+                                            ),
+                                            actions: [
+                                              IconButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: Icon(
+                                                  Icons.close_sharp,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(Icons.more_vert),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    );
+                  },
+                );
+              } else if (state is CategoryProgressState) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is GetCategorySuccessState &&
+                  state.categories.isEmpty) {
+                return const Center(
+                  child: Text(
+                    "Add some earnings or expanses",
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
                   ),
-                ],
-              ),
-            ),
+                );
+              } else if (state is CategoryFailureState) {
+                return Center(
+                  child: Text(
+                    state.errorMessage.toString(),
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                  ),
+                );
+              } else {
+                return SizedBox();
+              }
+            },
           );
         },
       ),

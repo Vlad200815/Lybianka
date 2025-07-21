@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
 
 class MenuOptions extends StatelessWidget {
-  const MenuOptions({super.key});
+  const MenuOptions({super.key, required this.id});
+
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -30,30 +36,39 @@ class MenuOptions extends StatelessWidget {
           ),
         ),
         Divider(color: Colors.grey[300]),
-        GestureDetector(
-          onTap: () {
-            //TODO: remove logic
+        BlocListener<CategoryBloc, CategoryState>(
+          listener: (context, state) {
+            if (state is RemoveCategorySuccessState) {
+              Navigator.pop(context);
+              log("Removed successfully");
+            }
           },
-          child: SizedBox(
-            height: 40,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.delete_forever_outlined,
-                  color: Colors.red,
-                  size: 27,
-                ),
-                SizedBox(width: 10),
-                Text(
-                  "Видалити",
-                  style: TextStyle(
+          child: GestureDetector(
+            onTap: () {
+              context.read<CategoryBloc>().add(OnRemoveCategoryEvent(id: id));
+              log("Trying to remove...");
+            },
+            child: SizedBox(
+              height: 40,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.delete_forever_outlined,
                     color: Colors.red,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
+                    size: 27,
                   ),
-                ),
-              ],
+                  SizedBox(width: 10),
+                  Text(
+                    "Видалити",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

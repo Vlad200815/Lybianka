@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'category_repository_export.dart';
 
 class CategoryRepository implements CategoryRepositoryInterface {
@@ -13,13 +11,38 @@ class CategoryRepository implements CategoryRepositoryInterface {
   static const _allMoney = "all_money";
   static const _allHistory = "all_history";
 
+  // @override
+  // Future<void> saveCategory(List<Category> category) async {
+  //   try {
+  //     List<String> jsonString = category
+  //         .map((element) => jsonEncode(element.toJson()))
+  //         .toList();
+  //     await preferences.setStringList(_allHistory, jsonString);
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
+
   @override
-  Future<void> saveCategory(List<Category> category) async {
+  Future<void> saveCategory(Category category) async {
     try {
-      List<String> jsonString = category
-          .map((element) => jsonEncode(element.toJson()))
-          .toList();
-      await preferences.setStringList(_allHistory, jsonString);
+      final String? jsonString = preferences.getString(_allHistory);
+      List<Category> categoryList = [];
+
+      if (jsonString != null) {
+        final List<dynamic> decoded = jsonDecode(jsonString);
+        categoryList = decoded
+            .map((element) => Category.fromJson(element))
+            .toList();
+      }
+
+      categoryList.add(category);
+
+      final String updatedJson = jsonEncode(
+        categoryList.map((element) => element.toJson()).toList(),
+      );
+
+      await preferences.setString(_allHistory, updatedJson);
     } catch (e) {
       log(e.toString());
     }
@@ -28,11 +51,12 @@ class CategoryRepository implements CategoryRepositoryInterface {
   @override
   Future<List<Category>> getCategory() async {
     try {
-      List<String>? jsonList = preferences.getStringList(_allHistory);
-      if (jsonList == null) return [];
-      return jsonList
-          .map((jsonStr) => Category.fromJson(jsonDecode(jsonStr)))
-          .toList();
+      String? jsonString = preferences.getString(_allHistory);
+      if (jsonString == null) return [];
+
+      final List<dynamic> decoded = jsonDecode(jsonString);
+
+      return decoded.map((element) => Category.fromJson(element)).toList();
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -41,20 +65,21 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future<void> removeCategory(String id) async {
-    List<String>? jsonString = preferences.getStringList(_allHistory);
+    String? jsonString = preferences.getString(_allHistory);
     if (jsonString == null) return;
-    List<Category> categoryList = jsonString
-        .map((jsonStr) => Category.fromJson(jsonDecode(jsonStr)))
+
+    final List<dynamic> decoded = jsonDecode(jsonString);
+    List<Category> categoryList = decoded
+        .map((element) => Category.fromJson(element))
         .toList();
-    for (var i = 0; i < categoryList.length; i++) {
-      if (id == categoryList[i].id) {
-        categoryList.removeAt(i);
-      }
-    }
-    List<String> updatedJsonList = categoryList
-        .map((element) => jsonEncode(element.toJson()))
-        .toList();
-    await preferences.setStringList(_allHistory, updatedJsonList);
+
+    categoryList.removeWhere((category) => category.id == id);
+
+    final String updatedJsonString = jsonEncode(
+      categoryList.map((element) => element.toJson()).toList(),
+    );
+
+    await preferences.setString(_allHistory, updatedJsonString);
   }
 
   @override

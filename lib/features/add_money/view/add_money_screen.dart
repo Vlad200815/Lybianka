@@ -1,9 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
+import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
+import 'package:uuid/uuid.dart';
 import '../../widgets/widgets.dart';
 
 class AddMoneyScreen extends StatefulWidget {
@@ -42,6 +47,8 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
     "assets/berries/tomato.png",
     "assets/berries/banana.png",
   ];
+
+  bool isProgress = false;
 
   int selectedBerry = 0;
 
@@ -337,7 +344,44 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 9),
-              GradientButton(onPressed: () => Navigator.pop(context)),
+
+              BlocListener<CategoryBloc, CategoryState>(
+                listener: (context, state) {
+                  if (state is SaveCategorySuccessState) {
+                    log("-------------Added successfully---------------");
+                    Navigator.pop(context);
+                  } else if (state is CategoryProgressState) {
+                    isProgress = true;
+                  } else {
+                    log("ERROR");
+                  }
+                },
+                child: isProgress == false
+                    ? GradientButton(
+                        onPressed: () {
+                          double money = 0;
+
+                          if (_moneyFieldController.text.isNotEmpty) {
+                            money = double.parse(_moneyFieldController.text);
+                          }
+
+                          String id = Uuid().v4();
+                          //TODO: make validation system!!!
+                          context.read<CategoryBloc>().add(
+                            OnSaveCategoryEvent(
+                              id: id,
+                              isProfit: isProfit,
+                              money: money,
+                              description: _whatJobFieldController.text,
+                              icon: berries[selectedBerry],
+                              color: pickerColor.value,
+                              date: _dateFieldController.text,
+                            ),
+                          );
+                        },
+                      )
+                    : const Center(child: CircularProgressIndicator()),
+              ),
             ],
           ),
         ),
