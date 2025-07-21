@@ -10,6 +10,7 @@ class MyTextField extends StatelessWidget {
     this.onTap,
     this.readOnly,
     this.suffixIcon,
+    this.validator,
   });
 
   final TextEditingController controller;
@@ -19,12 +20,14 @@ class MyTextField extends StatelessWidget {
   bool? readOnly;
   final Color fillColor;
   Widget? suffixIcon;
+  String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: TextFormField(
+        validator: validator,
         controller: controller,
         textAlignVertical: TextAlignVertical.center,
         readOnly: readOnly ?? false,

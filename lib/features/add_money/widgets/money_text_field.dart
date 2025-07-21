@@ -11,8 +11,15 @@ class MoneyTextField extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.7,
       child: TextFormField(
+        keyboardType: TextInputType.number,
         controller: moneyFieldController,
         textAlignVertical: TextAlignVertical.center,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Впиши гроші";
+          }
+          return null; // valid
+        },
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,

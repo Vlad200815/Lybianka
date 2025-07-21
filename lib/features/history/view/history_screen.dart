@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -77,111 +75,129 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                              ),
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: Color(category[index].color),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Image.asset(category[index].icon),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 18,
-                            ),
-                            Center(
-                              child: Text(
-                                category[index].description,
-                                style: TextStyle(
-                                  color: theme.colorScheme.onSurface,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 25,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    category[index].isProfit
-                                        ? "+${category[index].money}₴"
-                                        : "-${category[index].money}₴",
-                                    style: TextStyle(
-                                      color: category[index].isProfit
-                                          ? Colors.green
-                                          : Colors.red,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
+                                  child: Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      color: Color(category[index].color),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Image.asset(
+                                      category[index].icon,
+                                      scale: 10,
                                     ),
                                   ),
-                                  Text(
-                                    category[index].date,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 25,
+                                ),
+                                Center(
+                                  child: SizedBox(
+                                    width: 80,
+                                    child: Text(
+                                      category[index].description,
+                                      overflow: TextOverflow
+                                          .ellipsis, // or .fade, .clip
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        color: theme.colorScheme.onSurface,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Center(
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(
-                                    255,
-                                    240,
-                                    250,
-                                    255,
-                                  ),
-                                  borderRadius: BorderRadius.circular(25),
                                 ),
-                                child: IconButton(
-                                  onPressed: () {
-                                    showCupertinoDialog(
-                                      context: context,
-                                      builder: (cont) {
-                                        return SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: CupertinoAlertDialog(
-                                            content: MenuOptions(
-                                              id: category[index].id,
-                                            ),
-                                            actions: [
-                                              IconButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                icon: Icon(
-                                                  Icons.close_sharp,
-                                                  color: Colors.grey,
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        category[index].isProfit
+                                            ? "+${category[index].money.floor()}₴"
+                                            : "-${category[index].money.floor()}₴",
+                                        style: TextStyle(
+                                          color: category[index].isProfit
+                                              ? Colors.green
+                                              : Colors.red,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        category[index].date,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Center(
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromARGB(
+                                        255,
+                                        240,
+                                        250,
+                                        255,
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        showCupertinoDialog(
+                                          context: context,
+                                          builder: (cont) {
+                                            return SizedBox(
+                                              height: 100,
+                                              width: 100,
+                                              child: CupertinoAlertDialog(
+                                                content: MenuOptions(
+                                                  id: category[index].id,
                                                 ),
+                                                actions: [
+                                                  IconButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.close_sharp,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            );
+                                          },
                                         );
                                       },
-                                    );
-                                  },
-                                  icon: Icon(Icons.more_vert),
+                                      icon: Icon(Icons.more_vert),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 20,
+                                ),
+                              ],
                             ),
                           ],
                         ),

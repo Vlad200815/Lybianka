@@ -49,7 +49,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   ];
 
   bool isProgress = false;
-
+  final _formKey = GlobalKey<FormState>();
   int selectedBerry = 0;
 
   void changeColor(Color color) {
@@ -177,210 +177,262 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 24),
+              SizedBox(height: MediaQuery.of(context).size.height / 28),
               Text(
-                "Додай гроші",
+                "Додай гроші чи відніми",
                 style: TextStyle(
                   color: theme.colorScheme.onSurface,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 70),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.green,
-                      border: isProfit
-                          ? Border.all(color: Colors.black, width: 2)
-                          : Border(),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isProfit = true;
-                          isExpanse = false;
-                        });
-                      },
-                      child: Center(
-                        child: Text(
-                          "+",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
+              SizedBox(height: MediaQuery.of(context).size.height / 50),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    //TODO: Add a must choose system
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.green,
+                            border: isProfit
+                                ? Border.all(color: Colors.black, width: 3)
+                                : Border(),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isProfit = true;
+                                isExpanse = false;
+                              });
+                            },
+                            child: Center(
+                              child: Text(
+                                "+",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.red,
-                      border: isExpanse
-                          ? Border.all(color: Colors.black, width: 2)
-                          : Border(),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isProfit = false;
-                          isExpanse = true;
-                        });
-                      },
-                      child: Center(
-                        child: Text(
-                          "—",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.w600,
+                        const SizedBox(width: 10),
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.red,
+                            border: isExpanse
+                                ? Border.all(color: Colors.black, width: 3)
+                                : Border(),
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isProfit = false;
+                                isExpanse = true;
+                              });
+                            },
+                            child: Center(
+                              child: Text(
+                                "—",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height / 70),
+                    MoneyTextField(moneyFieldController: _moneyFieldController),
+                    SizedBox(height: MediaQuery.of(context).size.width / 9),
+                    MyTextField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Впиши що робив(ла)";
+                        }
+                        return null; // valid
+                      },
+                      fillColor: theme.colorScheme.onPrimary,
+                      hint: 'Що збирав',
+                      controller: _whatJobFieldController,
+                      icon: const Icon(
+                        FontAwesomeIcons.list,
+                        size: 16,
+                        color: Colors.grey,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height / 70),
-              MoneyTextField(moneyFieldController: _moneyFieldController),
-              SizedBox(height: MediaQuery.of(context).size.width / 9),
-              MyTextField(
-                fillColor: theme.colorScheme.onPrimary,
-                hint: 'Що збирав',
-                controller: _whatJobFieldController,
-                icon: const Icon(
-                  FontAwesomeIcons.list,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-              ),
-              MyTextField(
-                fillColor: theme.colorScheme.onPrimary,
-                hint: 'Вибери іконку',
-                readOnly: true,
-                controller: _iconFieldController,
-                suffixIcon: GestureDetector(
-                  onTap: () => showBerryPickerDialog(context),
-                  child: Icon(
-                    Icons.expand_more,
-                    color: theme.colorScheme.outline,
-                  ),
-                ),
-                icon: Image.asset(berries[selectedBerry], scale: 15),
-              ),
-              MyTextField(
-                fillColor: pickerColor,
-                onTap: () {
-                  showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      //TODO fix the problem with the cross inside ColorPicker
-                      return SingleChildScrollView(
-                        child: Dialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(16),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsetsGeometry.all(16),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text(
-                                  'Pick a color!',
-                                  style: TextStyle(fontSize: 18),
+                    MyTextField(
+                      fillColor: theme.colorScheme.onPrimary,
+                      hint: 'Вибери іконку',
+                      readOnly: true,
+                      controller: _iconFieldController,
+                      suffixIcon: GestureDetector(
+                        onTap: () => showBerryPickerDialog(context),
+                        child: Icon(
+                          Icons.expand_more,
+                          color: theme.colorScheme.outline,
+                        ),
+                      ),
+                      icon: Image.asset(berries[selectedBerry], scale: 15),
+                    ),
+                    MyTextField(
+                      fillColor: pickerColor,
+                      readOnly: true,
+                      onTap: () {
+                        showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) {
+                            //TODO fix the problem with the cross inside ColorPicker
+                            return SingleChildScrollView(
+                              child: Dialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    16,
+                                  ),
                                 ),
-                                const SizedBox(height: 16),
-                                ColorPicker(
-                                  pickerColor: pickerColor,
-                                  onColorChanged: changeColor,
+                                child: Padding(
+                                  padding: EdgeInsetsGeometry.all(16),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text(
+                                        'Pick a color!',
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      const SizedBox(height: 16),
+                                      ColorPicker(
+                                        pickerColor: pickerColor,
+                                        onColorChanged: changeColor,
+                                      ),
+                                      const SizedBox(height: 16),
+                                      ElevatedButton(
+                                        child: const Text('Got it'),
+                                        onPressed: () {
+                                          debugPrint(
+                                            "--------------------${pickerColor.value}-------------------------",
+                                          );
+                                          setState(
+                                            () => currentColor = pickerColor,
+                                          );
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(height: 16),
-                                ElevatedButton(
-                                  child: const Text('Got it'),
-                                  onPressed: () {
-                                    debugPrint(
-                                      "--------------------${pickerColor.value}-------------------------",
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      controller: _colorFieldController,
+                      hint: 'Колір',
+                      icon: const Icon(
+                        FontAwesomeIcons.pencil,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    MyTextField(
+                      fillColor: theme.colorScheme.onPrimary,
+                      readOnly: true,
+                      controller: _dateFieldController,
+                      hint: 'Дата',
+                      icon: const Icon(
+                        FontAwesomeIcons.clock,
+                        size: 16,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height / 9),
+
+                    BlocListener<CategoryBloc, CategoryState>(
+                      listener: (context, state) {
+                        if (state is SaveCategorySuccessState) {
+                          log("-------------Added successfully---------------");
+                          Navigator.pop(context);
+                        } else if (state is CategoryProgressState) {
+                          isProgress = true;
+                        } else {
+                          log("ERROR");
+                        }
+                      },
+                      child: isProgress == false
+                          ? GradientButton(
+                              onPressed: () {
+                                if (!isProfit && !isExpanse) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        "Оберіть дохід або витрату",
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      backgroundColor: Colors.black,
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                if (_formKey.currentState!.validate()) {
+                                  double? money = double.tryParse(
+                                    _moneyFieldController.text,
+                                  );
+                                  if (money == null || money <= 0) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Некоректна сума",
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                        backgroundColor: Colors.black,
+                                      ),
                                     );
-                                    setState(() => currentColor = pickerColor);
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-                controller: _colorFieldController,
-                hint: 'Колір',
-                icon: const Icon(
-                  FontAwesomeIcons.pencil,
-                  size: 16,
-                  color: Colors.grey,
+                                    return;
+                                  }
+                                  final String id = Uuid().v4();
+                                  context.read<CategoryBloc>().add(
+                                    OnSaveCategoryEvent(
+                                      id: id,
+                                      isProfit: isProfit,
+                                      money: money,
+                                      description: _whatJobFieldController.text,
+                                      icon: berries[selectedBerry],
+                                      color: pickerColor.value,
+                                      date: _dateFieldController.text,
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.white,
+                                      content: Text(
+                                        "Будь ласка, заповніть всі поля",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            )
+                          : const Center(child: CircularProgressIndicator()),
+                    ),
+                  ],
                 ),
-              ),
-              MyTextField(
-                fillColor: theme.colorScheme.onPrimary,
-                readOnly: true,
-                controller: _dateFieldController,
-                hint: 'Дата',
-                icon: const Icon(
-                  FontAwesomeIcons.clock,
-                  size: 16,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height / 9),
-
-              BlocListener<CategoryBloc, CategoryState>(
-                listener: (context, state) {
-                  if (state is SaveCategorySuccessState) {
-                    log("-------------Added successfully---------------");
-                    Navigator.pop(context);
-                  } else if (state is CategoryProgressState) {
-                    isProgress = true;
-                  } else {
-                    log("ERROR");
-                  }
-                },
-                child: isProgress == false
-                    ? GradientButton(
-                        onPressed: () {
-                          double money = 0;
-
-                          if (_moneyFieldController.text.isNotEmpty) {
-                            money = double.parse(_moneyFieldController.text);
-                          }
-
-                          String id = Uuid().v4();
-                          //TODO: make validation system!!!
-                          context.read<CategoryBloc>().add(
-                            OnSaveCategoryEvent(
-                              id: id,
-                              isProfit: isProfit,
-                              money: money,
-                              description: _whatJobFieldController.text,
-                              icon: berries[selectedBerry],
-                              color: pickerColor.value,
-                              date: _dateFieldController.text,
-                            ),
-                          );
-                        },
-                      )
-                    : const Center(child: CircularProgressIndicator()),
               ),
             ],
           ),
