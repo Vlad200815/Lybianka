@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -166,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,
-                      vertical: 20,
+                      vertical: 8,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -180,27 +181,53 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 22,
                           ),
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          "0%",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 45,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: IconButton(
-                            onPressed: () =>
-                                Navigator.pushNamed(context, "/set_aim"),
-                            icon: Icon(
-                              Icons.outlined_flag_rounded,
+                        const SizedBox(height: 2.5),
+                        CircularPercentIndicator(
+                          curve: Curves.easeInCubic,
+                          radius: 50,
+                          lineWidth: 8,
+                          percent: 0.5,
+                          center: Text(
+                            "50%",
+                            style: TextStyle(
                               color: Colors.white,
-                              size: 30,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
                             ),
                           ),
+                          progressColor: Colors.redAccent,
+                        ),
+                        const SizedBox(height: 2.5),
+
+                        Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "30000₴/97000₴",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 5,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: IconButton(
+                                onPressed: () =>
+                                    Navigator.pushNamed(context, "/set_aim"),
+                                icon: Icon(
+                                  Icons.outlined_flag_rounded,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -253,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   BarChartData(
                     borderData: FlBorderData(show: false),
                     barTouchData: BarTouchData(enabled: false),
-                    maxY: 200,
+                    maxY: 3000,
                     barGroups: List.generate(7, (index) {
                       return BarChartGroupData(
                         x: index,

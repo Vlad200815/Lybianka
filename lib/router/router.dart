@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lybianka/features/settings/view/screamer_screen.dart';
 import '../features/add_money/add_money.dart';
 import '../features/advise/advise.dart';
 import '../features/history/history.dart';
@@ -14,6 +15,7 @@ Map<String, Widget Function(BuildContext)> routes = {
   "/add_money": (context) => AddMoneyScreen(),
   "/settings": (context) => const SettingsScreen(),
   "/settings/edit_profile": (context) => const EditProfileScreen(),
+  "/settings/screamer": (context) => const ScreamerScreen(),
   "/advise": (context) => const AdviseScreen(),
   "/set_aim": (context) => const SetAimScreen(),
 };

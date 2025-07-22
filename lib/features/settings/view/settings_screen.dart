@@ -129,6 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: (value) {
                   setState(() {
                     notificationSwitch = value;
+                    Navigator.pushNamed(context, "/settings/screamer");
                   });
                 },
               ),
