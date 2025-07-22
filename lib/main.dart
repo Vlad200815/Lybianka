@@ -24,7 +24,7 @@ void main() async {
   final categoryRepository = CategoryRepository(preferences: preferences);
 
   //for cleaning shared preferences if needed
-  await preferences.clear();
+  // await preferences.clear();
 
   runApp(
     MultiBlocProvider(
