@@ -11,18 +11,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
   static const _allMoney = "all_money";
   static const _allHistory = "all_history";
 
-  // @override
-  // Future<void> saveCategory(List<Category> category) async {
-  //   try {
-  //     List<String> jsonString = category
-  //         .map((element) => jsonEncode(element.toJson()))
-  //         .toList();
-  //     await preferences.setStringList(_allHistory, jsonString);
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  // }
-
   @override
   Future<void> saveCategory(Category category) async {
     try {
@@ -83,8 +71,29 @@ class CategoryRepository implements CategoryRepositoryInterface {
   }
 
   @override
-  Future<void> saveMoney(double money) async {
+  Future<void> saveMoney() async {
     try {
+      double money = 0;
+      final String? jsonString = preferences.getString(_allHistory);
+      List<Category> categoryList = [];
+
+      if (jsonString != null) {
+        final List<dynamic> decoded = jsonDecode(jsonString);
+        categoryList = decoded
+            .map((element) => Category.fromJson(element))
+            .toList();
+      }
+
+      for (var i = 0; i < categoryList.length; i++) {
+        if (categoryList[i].isProfit == true) {
+          money = money + categoryList[i].money;
+        } else if (categoryList[i].isProfit == false) {
+          money = money - categoryList[i].money;
+        }
+      }
+
+      log(money.toString());
+
       await preferences.setDouble(_allMoney, money);
     } catch (e) {
       log(e.toString());
@@ -96,6 +105,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
     try {
       double? money = preferences.getDouble(_allMoney);
       if (money != null) {
+        log("Your money is $money");
         return money;
       } else {
         return 0;

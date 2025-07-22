@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
 import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
+import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
 import 'package:uuid/uuid.dart';
 import '../../widgets/widgets.dart';
 
@@ -156,6 +157,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       body: Padding(
@@ -191,7 +193,6 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    //TODO: Add a must choose system
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -415,6 +416,13 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                       color: pickerColor.value,
                                       date: _dateFieldController.text,
                                     ),
+                                  );
+                                  //TODO: delete 420 line if it doesn't work
+                                  context.read<MoneyBloc>().add(
+                                    OnSaveMoneyEvent(),
+                                  );
+                                  context.read<MoneyBloc>().add(
+                                    OnGetMoneyEvent(),
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(

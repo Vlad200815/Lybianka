@@ -1,8 +1,9 @@
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,25 +16,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final controller = FlipCardController();
 
   DateTime _selectedDate = DateTime.now();
-  // Map<String, double> readingTimes = {
-  //   '2024-06-10': 130,
-  //   '2024-06-11': 160,
-  //   '2024-06-12': 95,
-  //   '2024-06-13': 100,
-  //   // etc.
-  // };
 
-  // List<double> getWeekData(DateTime date) {
-  //   DateTime monday = date.subtract(Duration(days: date.weekday - 1));
-  //   return List.generate(7, (index) {
-  //     String dayKey = monday
-  //         .add(Duration(days: index))
-  //         .toIso8601String()
-  //         .substring(0, 10);
-  //     print("-----------------${readingTimes[dayKey]}");
-  //     return readingTimes[dayKey] ?? 0;
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    context.read<MoneyBloc>().add(OnGetMoneyEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,26 +120,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(
-                          "\$ 4800.00",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 45,
-                          ),
+                        BlocBuilder<MoneyBloc, MoneyState>(
+                          builder: (context, state) {
+                            if (state is MoneyGetSuccessState) {
+                              return Text(
+                                "₴${state.money.floor()}",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 45,
+                                ),
+                              );
+                            } else {
+                              return Center(
+                                child: Text(
+                                  "Something weng wrong...",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              );
+                            }
+                          },
                         ),
-                        // const SizedBox(height: 12),
-                        // Align(
-                        //   alignment: Alignment.bottomRight,
-                        //   child: IconButton(
-                        //     onPressed: () {},
-                        //     icon: Icon(
-                        //       Icons.currency_exchange_rounded,
-                        //       color: Colors.white,
-                        //       size: 30,
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

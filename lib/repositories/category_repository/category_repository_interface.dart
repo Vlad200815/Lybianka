@@ -6,6 +6,6 @@ abstract interface class CategoryRepositoryInterface {
   Future<List<Category>> getCategory();
   Future<void> removeCategory(String id);
   //Current Money
-  Future<void> saveMoney(double money);
+  Future<void> saveMoney();
   Future<double> getMoney();
 }
