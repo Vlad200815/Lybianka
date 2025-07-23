@@ -3,7 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
-import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
+import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
+import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,12 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<MoneyBloc>().add(OnGetMoneyEvent());
+    context.read<SettingsBloc>().add(OnGetProfileEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    List<double> weekData = [100, 129, 80, 96, 200, 100, 132];
+    List<double> weekData = [1000, 1290, 2080, 2096, 2100, 1000, 1320];
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -38,20 +40,31 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      // color: const Color.fromARGB(255, 255, 191, 0),
-                      color: theme.colorScheme.tertiary,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        "assets/appearences/man.png",
-                        height: 35,
-                      ),
-                    ),
+                  BlocBuilder<SettingsBloc, SettingsState>(
+                    builder: (context, state) {
+                      if (state is SettingsGetSuccessState) {
+                        return Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Color(state.profileModel.background),
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: Color(state.profileModel.border),
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Image.asset(
+                              state.profileModel.avatar,
+                              height: 35,
+                            ),
+                          ),
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    },
                   ),
                   const SizedBox(width: 10),
                   Column(
@@ -154,14 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.red,
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     theme.colorScheme.tertiary,
-                    //     theme.colorScheme.secondary,
-                    //     theme.colorScheme.primary,
-                    //   ],
-                    //   transform: const GradientRotation(pi / 4),
-                    // ),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Padding(

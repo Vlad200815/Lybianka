@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
+import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import '../history.dart';
 
 class HistoryScreen extends StatefulWidget {

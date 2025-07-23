@@ -18,8 +18,6 @@ final class MoneyGetSuccessState extends MoneyState {
   List<Object> get props => [money];
 }
 
-// final class MoneySaveSuccessState extends MoneyState {}
-
 final class MoneyProgressState extends MoneyState {}
 
 final class MoneyFailureState extends MoneyState {

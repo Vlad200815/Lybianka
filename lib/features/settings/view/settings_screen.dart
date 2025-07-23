@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../settings.dart';
@@ -70,21 +72,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             "/settings/edit_profile",
                           );
                         },
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(60),
-                            border: Border.all(
-                              color: theme.colorScheme.tertiary,
-                              width: 3,
-                            ),
-                            color: Colors.red,
-                          ),
-                          child: Image.asset(
-                            "assets/appearences/man.png",
-                            scale: 6,
-                          ),
+                        child: BlocBuilder<SettingsBloc, SettingsState>(
+                          builder: (context, state) {
+                            if (state is SettingsGetSuccessState) {
+                              return Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(60),
+                                  border: Border.all(
+                                    color: Color(state.profileModel.border),
+                                    width: 3,
+                                  ),
+                                  color: Color(state.profileModel.background),
+                                ),
+                                child: Image.asset(
+                                  state.profileModel.avatar,
+                                  scale: 6,
+                                ),
+                              );
+                            } else {
+                              return SizedBox();
+                            }
+                          },
                         ),
                       ),
                       const SizedBox(width: 15),

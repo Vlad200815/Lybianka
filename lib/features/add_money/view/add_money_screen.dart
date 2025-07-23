@@ -7,8 +7,8 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
-import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
-import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
+import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
+import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:uuid/uuid.dart';
 import '../../widgets/widgets.dart';
 

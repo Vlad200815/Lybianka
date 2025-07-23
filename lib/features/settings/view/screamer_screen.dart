@@ -26,12 +26,6 @@ class _ScreamerScreenState extends State<ScreamerScreen> {
       });
   }
 
-  // void _playScreamer() async {
-  //   if (await Vibration.hasVibrator() ?? false) {
-  //     Vibration.vibrate(duration: 3000);
-  //   }
-  // }
-
   @override
   void dispose() {
     _controller.dispose();

@@ -1,4 +1,6 @@
-class Category {
+import 'package:equatable/equatable.dart';
+
+class Category extends Equatable {
   Category({
     required this.id,
     required this.isProfit,
@@ -36,4 +38,15 @@ class Category {
     color: json["color"],
     date: json["date"],
   );
+
+  @override
+  List<Object?> get props => [
+    id,
+    isProfit,
+    money,
+    description,
+    icon,
+    color,
+    date,
+  ];
 }

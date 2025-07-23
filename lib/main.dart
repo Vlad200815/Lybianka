@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
+import 'package:lybianka/features/blocs/settings_bloc/settings_bloc.dart';
 import 'package:lybianka/repositories/category_repository/category_repository_export.dart';
+import 'package:lybianka/repositories/settings_repository/settings_repository.dart';
 import 'package:lybianka/router/router.dart';
 import 'package:lybianka/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +23,9 @@ void main() async {
   Bloc.observer = TalkerBlocObserver(talker: talker);
 
   final preferences = await SharedPreferences.getInstance();
+
   final categoryRepository = CategoryRepository(preferences: preferences);
+  final settingsRepository = SettingsRepository(prefs: preferences);
 
   //for cleaning shared preferences if needed
   // await preferences.clear();
@@ -35,6 +39,9 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => MoneyBloc(categoryRepo: categoryRepository),
+        ),
+        BlocProvider(
+          create: (context) => SettingsBloc(settingsRepo: settingsRepository),
         ),
       ],
       child: const MyApp(),

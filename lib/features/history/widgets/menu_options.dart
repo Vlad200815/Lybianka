@@ -3,8 +3,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lybianka/features/add_money/view/add_money_screen.dart';
-import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
-import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
+import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
+import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 
 class MenuOptions extends StatelessWidget {
   const MenuOptions({super.key, required this.id});

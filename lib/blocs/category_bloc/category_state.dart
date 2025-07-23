@@ -25,6 +25,9 @@ final class CategoryFailureState extends CategoryState {
   final String errorMessage;
 
   const CategoryFailureState({required this.errorMessage});
+
+  @override
+  List<Object> get props => [errorMessage];
 }
 
 final class RemoveCategorySuccessState extends CategoryState {}

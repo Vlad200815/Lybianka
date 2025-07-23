@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:lybianka/features/widgets/widgets.dart';
+import 'package:lybianka/repositories/settings_repository/model/model.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -252,7 +255,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(height: MediaQuery.of(context).size.width / 25),
               GradientButton(
                 onPressed: () {
-                  //TODO: saveing logic
+                  context.read<SettingsBloc>().add(
+                    OnSaveProfileEvent(
+                      profileModel: ProfileModel(
+                        avatar: faces[selectedFace],
+                        background:
+                            backgroundColors[selectedBackgroundColor].value,
+                        border: borderColors[selectedBorderColor].value,
+                      ),
+                    ),
+                  );
+                  context.read<SettingsBloc>().add(OnGetProfileEvent());
+
                   Navigator.pop(context);
                 },
               ),
