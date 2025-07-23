@@ -141,7 +141,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       Text(
                                         category[index].date,
                                         style: TextStyle(
-                                          color: Colors.black,
+                                          color: theme.colorScheme.onSurface,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -154,12 +154,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     width: 40,
                                     height: 40,
                                     decoration: BoxDecoration(
-                                      color: const Color.fromARGB(
-                                        255,
-                                        240,
-                                        250,
-                                        255,
-                                      ),
+                                      color: theme.colorScheme.onSecondary,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: IconButton(
@@ -190,7 +185,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           },
                                         );
                                       },
-                                      icon: Icon(Icons.more_vert),
+                                      icon: Icon(
+                                        Icons.more_vert,
+                                        color: theme.colorScheme.onSurface,
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -203,7 +203,10 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.green,
                             border: isProfit
-                                ? Border.all(color: Colors.black, width: 3)
+                                ? Border.all(
+                                    color: theme.colorScheme.onSurface,
+                                    width: 3,
+                                  )
                                 : Border(),
                           ),
                           child: GestureDetector(
@@ -233,7 +236,10 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.red,
                             border: isExpanse
-                                ? Border.all(color: Colors.black, width: 3)
+                                ? Border.all(
+                                    color: theme.colorScheme.onSurface,
+                                    width: 3,
+                                  )
                                 : Border(),
                           ),
                           child: GestureDetector(
@@ -291,6 +297,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                       icon: Image.asset(berries[selectedBerry], scale: 15),
                     ),
                     MyTextField(
+                      //TODO: make the starting color black when it is our dark theme
                       fillColor: pickerColor,
                       readOnly: true,
                       onTap: () {
@@ -381,9 +388,12 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                     SnackBar(
                                       content: Text(
                                         "Оберіть дохід або витрату",
-                                        style: TextStyle(color: Colors.white),
+                                        style: TextStyle(
+                                          color: theme.colorScheme.onSurface,
+                                        ),
                                       ),
-                                      backgroundColor: Colors.black,
+                                      backgroundColor:
+                                          theme.colorScheme.onPrimary,
                                     ),
                                   );
                                   return;
@@ -398,9 +408,12 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                       SnackBar(
                                         content: Text(
                                           "Некоректна сума",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(
+                                            color: theme.colorScheme.onSurface,
+                                          ),
                                         ),
-                                        backgroundColor: Colors.black,
+                                        backgroundColor:
+                                            theme.colorScheme.onPrimary,
                                       ),
                                     );
                                     return;

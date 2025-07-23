@@ -8,6 +8,7 @@ class MoneyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.7,
       child: TextFormField(
@@ -22,7 +23,7 @@ class MoneyTextField extends StatelessWidget {
         },
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white,
+          fillColor: theme.colorScheme.onPrimary,
           prefixIcon: const Icon(
             FontAwesomeIcons.hryvniaSign,
             size: 16,

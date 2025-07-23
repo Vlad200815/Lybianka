@@ -68,7 +68,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 232, 249, 254),
+        backgroundColor: theme.colorScheme.onSecondary,
         title: Text(
           "Edit Profile",
           style: TextStyle(

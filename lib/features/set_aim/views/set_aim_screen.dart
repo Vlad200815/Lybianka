@@ -95,7 +95,7 @@ class _SetAimScreenState extends State<SetAimScreen> {
                       controller: _nameController,
                       icon: Icon(Icons.card_giftcard_rounded),
                       hint: "Що хочеш придбати",
-                      fillColor: Colors.white,
+                      fillColor: theme.colorScheme.onPrimary,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Впиши щось";
@@ -108,7 +108,7 @@ class _SetAimScreenState extends State<SetAimScreen> {
                       controller: _priceController,
                       icon: Icon(Icons.attach_money_rounded),
                       hint: "Ціна",
-                      fillColor: Colors.white,
+                      fillColor: theme.colorScheme.onPrimary,
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -131,10 +131,12 @@ class _SetAimScreenState extends State<SetAimScreen> {
                     if (_image == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          backgroundColor: Colors.white,
+                          backgroundColor: theme.colorScheme.onPrimary,
                           content: Text(
                             "Будь ласка, виберіть фото",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurface,
+                            ),
                           ),
                         ),
                       );
@@ -144,10 +146,10 @@ class _SetAimScreenState extends State<SetAimScreen> {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: theme.colorScheme.onPrimary,
                         content: Text(
                           "Будь ласка, заповніть всі поля",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(color: theme.colorScheme.onSurface),
                         ),
                       ),
                     );

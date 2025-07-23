@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
+import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../settings.dart';
@@ -34,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           elevation: 0,
-          backgroundColor: Color.fromARGB(255, 232, 249, 254),
+          backgroundColor: theme.colorScheme.onSecondary,
           title: Text(
             "Settings",
             style: TextStyle(
@@ -124,13 +125,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              MySwitch(
-                text: "Dark Theme",
-                value: darkThemeSwitch,
-                onChanged: (value) {
-                  setState(() {
-                    darkThemeSwitch = value;
-                  });
+              BlocBuilder<ThemeCubit, ThemeState>(
+                builder: (context, state) {
+                  return MySwitch(
+                    text: "Dark Theme",
+                    value: state.brightness == Brightness.dark ? true : false,
+                    onChanged: (value) {
+                      setState(() {
+                        context.read<ThemeCubit>().setThemeBrightness(
+                          value ? Brightness.dark : Brightness.light,
+                        );
+                      });
+                    },
+                  );
                 },
               ),
               MySwitch(
@@ -149,6 +156,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onChanged: (value) {
                   setState(() {
                     allowAnalitics = value;
+                    Navigator.pushNamed(context, "/settings/screamer2");
                   });
                 },
               ),

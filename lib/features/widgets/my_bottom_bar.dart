@@ -46,7 +46,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
               transform: const GradientRotation(pi / 4),
             ),
           ),
-          child: const Icon(CupertinoIcons.add, size: 30),
+          child: Icon(CupertinoIcons.add, size: 30, color: Colors.white),
         ),
       ),
       body: _selectedIndex == 0 ? HomeScreen() : SettingsScreen(),
@@ -67,6 +67,7 @@ class _MyBottomBarState extends State<MyBottomBar> {
           ],
           onTap: _onItemTapped,
           selectedItemColor: theme.colorScheme.primary,
+          unselectedItemColor: theme.colorScheme.outline,
           currentIndex: _selectedIndex,
 
           elevation: 3,

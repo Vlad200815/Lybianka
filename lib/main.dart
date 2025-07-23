@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lybianka/features/blocs/category_bloc/category_bloc.dart';
-import 'package:lybianka/features/blocs/money_bloc/money_bloc.dart';
-import 'package:lybianka/features/blocs/settings_bloc/settings_bloc.dart';
+import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
+import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
+import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
+import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
 import 'package:lybianka/repositories/category_repository/category_repository_export.dart';
 import 'package:lybianka/repositories/settings_repository/settings_repository.dart';
 import 'package:lybianka/router/router.dart';
@@ -43,6 +44,9 @@ void main() async {
         BlocProvider(
           create: (context) => SettingsBloc(settingsRepo: settingsRepository),
         ),
+        BlocProvider(
+          create: (context) => ThemeCubit(settingsRepo: settingsRepository),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -54,11 +58,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: myTheme,
-      routes: routes,
-      initialRoute: initialRoute,
+    return BlocBuilder<ThemeCubit, ThemeState>(
+      builder: (context, state) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: state.brightness == Brightness.light ? lightTheme : darkTheme,
+          routes: routes,
+          initialRoute: initialRoute,
+        );
+      },
     );
   }
 }

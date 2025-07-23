@@ -10,6 +10,7 @@ class SettingsRepository implements SettingsRepositoryInterface {
   SettingsRepository({required this.prefs});
 
   static const _profileStorage = "profile_storage";
+  static const _isDarkTheme = "is_dark_theme";
 
   @override
   Future<void> saveProfile(ProfileModel profile) async {
@@ -36,5 +37,16 @@ class SettingsRepository implements SettingsRepositoryInterface {
       log(e.toString());
       rethrow;
     }
+  }
+
+  @override
+  bool isDarkThemeSelected() {
+    final selected = prefs.getBool(_isDarkTheme);
+    return selected ?? false;
+  }
+
+  @override
+  Future<void> setDarkThemeSelected(bool selected) async {
+    await prefs.setBool(_isDarkTheme, selected);
   }
 }

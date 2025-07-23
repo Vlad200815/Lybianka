@@ -31,7 +31,7 @@ class GradientButton extends StatelessWidget {
           child: Text(
             "SAVE",
             style: TextStyle(
-              color: theme.colorScheme.onPrimary,
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

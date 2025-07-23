@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         "Vlad Semeniuk",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: theme.colorScheme.onSurface,
                           fontWeight: FontWeight.w800,
                           fontSize: 17,
                         ),
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "Week Preformance",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: theme.colorScheme.onSurface,
                         fontWeight: FontWeight.w800,
                         fontSize: 24,
                       ),
@@ -277,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ///Graph----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: theme.colorScheme.onPrimary,
                   borderRadius: BorderRadius.circular(25),
                 ),
                 height: 320,
