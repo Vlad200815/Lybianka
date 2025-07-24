@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
 import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
@@ -62,6 +63,9 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
     super.initState();
     String formttedDate = DateFormat('dd/MM/yyyy').format(now);
     _dateFieldController.text = formttedDate;
+    if (context.read<ThemeCubit>().state.brightness == Brightness.dark) {
+      pickerColor = Colors.black;
+    }
   }
 
   void showBerryPickerDialog(BuildContext context) {

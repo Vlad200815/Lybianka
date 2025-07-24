@@ -14,7 +14,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool darkThemeSwitch = false;
   bool notificationSwitch = true;
   bool allowAnalitics = true;
 

@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
+import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,12 +21,27 @@ class _HomeScreenState extends State<HomeScreen> {
   final controller = FlipCardController();
 
   DateTime _selectedDate = DateTime.now();
+  File? _image;
+
+  void loadImage() async {
+    final String fileName = "the_image.jpg";
+    final String path = (await getApplicationDocumentsDirectory()).path;
+
+    if (File("$path/$fileName").existsSync()) {
+      setState(() {
+        _image = File("$path/$fileName");
+      });
+      print("---------------------------reloads-----------------------------");
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     context.read<MoneyBloc>().add(OnGetMoneyEvent());
     context.read<SettingsBloc>().add(OnGetProfileEvent());
+    context.read<AimCategoryBloc>().add(OnGetAimCategoryEvent());
+    loadImage();
   }
 
   @override
@@ -97,147 +115,198 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 45),
-              FlipCard(
-                controller: controller,
-                rotateSide: RotateSide.right,
-                axis: FlipAxis.vertical,
-                onTapFlipping: true,
-                frontWidget: Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        theme.colorScheme.tertiary,
-                        theme.colorScheme.secondary,
-                        theme.colorScheme.primary,
-                      ],
-                      transform: const GradientRotation(pi / 4),
-                    ),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 20,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Total Balance",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
+              BlocBuilder<MoneyBloc, MoneyState>(
+                builder: (context, state) {
+                  if (state is MoneyGetSuccessState) {
+                    num money = state.money.floor();
+                    return FlipCard(
+                      controller: controller,
+                      rotateSide: RotateSide.right,
+                      axis: FlipAxis.vertical,
+                      onTapFlipping: true,
+                      frontWidget: Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              theme.colorScheme.tertiary,
+                              theme.colorScheme.secondary,
+                              theme.colorScheme.primary,
+                            ],
+                            transform: const GradientRotation(pi / 4),
                           ),
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                        const SizedBox(height: 10),
-                        BlocBuilder<MoneyBloc, MoneyState>(
-                          builder: (context, state) {
-                            if (state is MoneyGetSuccessState) {
-                              return Text(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 20,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Total Balance",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
                                 "₴${state.money.floor()}",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 45,
                                 ),
-                              );
-                            } else {
-                              return Center(
-                                child: Text(
-                                  "Something weng wrong...",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      backWidget: BlocBuilder<AimCategoryBloc, AimCategoryState>(
+                        builder: (context, state) {
+                          if (state is AimCategoryGetSuccessState) {
+                            int percentage =
+                                ((money / state.aimCategory.price) * 100)
+                                    .round();
+                            return Container(
+                              height: 200,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 8,
                                 ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                backWidget: Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 8,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Постав ціль",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 22,
-                          ),
-                        ),
-                        const SizedBox(height: 2.5),
-                        CircularPercentIndicator(
-                          curve: Curves.easeInCubic,
-                          radius: 50,
-                          lineWidth: 8,
-                          percent: 0.5,
-                          center: Text(
-                            "50%",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                            ),
-                          ),
-                          progressColor: Colors.redAccent,
-                        ),
-                        const SizedBox(height: 2.5),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      state.aimCategory.name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 22,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2.5),
+                                    CircularPercentIndicator(
+                                      curve: Curves.easeInCubic,
 
-                        Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "30000₴/97000₴",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 25,
+                                      radius: 50,
+                                      lineWidth: 8,
+                                      percent: money / state.aimCategory.price,
+                                      progressColor: const Color.fromARGB(
+                                        255,
+                                        255,
+                                        0,
+                                        85,
+                                      ),
+                                      backgroundColor: Colors.redAccent,
+                                      circularStrokeCap:
+                                          CircularStrokeCap.round,
+                                      center: Stack(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: CircleAvatar(
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                    255,
+                                                    154,
+                                                    223,
+                                                    255,
+                                                  ),
+                                              radius: 42.5,
+                                              foregroundImage: _image != null
+                                                  ? FileImage(_image!)
+                                                  : null,
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "$percentage%",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2.5),
+
+                                    Stack(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            "$money₴/${state.aimCategory.price}₴",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 25,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(
+                                                context,
+                                              ).size.width /
+                                              5,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                "/set_aim",
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.outlined_flag_rounded,
+                                              color: Colors.white,
+                                              size: 30,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 5,
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: IconButton(
-                                onPressed: () =>
-                                    Navigator.pushNamed(context, "/set_aim"),
-                                icon: Icon(
-                                  Icons.outlined_flag_rounded,
-                                  color: Colors.white,
-                                  size: 30,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularPercentIndicator(radius: 30),
+                            );
+                          }
+                        },
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: Text(
+                        "Something went wrong...",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    );
+                  }
+                },
               ),
 
               SizedBox(height: MediaQuery.of(context).size.height / 39),

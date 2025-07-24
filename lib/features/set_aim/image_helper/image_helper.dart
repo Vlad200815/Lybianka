@@ -1,5 +1,9 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ImageHelper {
   ImageHelper({ImagePicker? imagePicker, ImageCropper? imageCropper})
@@ -18,6 +22,9 @@ class ImageHelper {
       source: source,
       imageQuality: imageQuality,
     );
+    if (file != null) {
+      saveImage(file);
+    }
     return file;
   }
 
@@ -29,4 +36,14 @@ class ImageHelper {
     compressQuality: 100,
     uiSettings: [IOSUiSettings(), AndroidUiSettings()],
   );
+
+  void saveImage(XFile img) async {
+    final String path = (await getApplicationDocumentsDirectory()).path;
+    File convertedImg = File(img.path);
+    final String fileName = "the_image.jpg";
+    final File localImage = await convertedImg.copy("$path/$fileName");
+    log(
+      "Saved image under: $path/$fileName -Local image path- ${localImage.path}",
+    );
+  }
 }

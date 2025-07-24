@@ -1,10 +1,16 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
 import 'package:lybianka/features/add_money/add_money.dart';
 import 'package:lybianka/features/set_aim/image_helper/image_helper.dart';
 import 'package:lybianka/features/widgets/gradient_button.dart';
+import 'package:lybianka/repositories/aim_category/model/model.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SetAimScreen extends StatefulWidget {
   const SetAimScreen({super.key});
@@ -22,6 +28,27 @@ class _SetAimScreenState extends State<SetAimScreen> {
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+
+  void loadImage() async {
+    final String fileName = "the_image.jpg";
+    final String path = (await getApplicationDocumentsDirectory()).path;
+    final file = File("$path/$fileName");
+
+    if (file.existsSync()) {
+      await FileImage(file).evict();
+
+      setState(() {
+        _image = File("$path/$fileName");
+        log("The image has been changed");
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadImage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +153,7 @@ class _SetAimScreenState extends State<SetAimScreen> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 6),
               GradientButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey2.currentState!.validate()) {
                     if (_image == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -141,7 +168,19 @@ class _SetAimScreenState extends State<SetAimScreen> {
                         ),
                       );
                     } else {
-                      Navigator.pop(context);
+                      context.read<AimCategoryBloc>().add(
+                        OnSaveAimCategoryEvent(
+                          aimCategory: AimCategoryModel(
+                            name: _nameController.text,
+                            price: num.parse(_priceController.text),
+                          ),
+                        ),
+                      );
+                      context.read<AimCategoryBloc>().add(
+                        OnGetAimCategoryEvent(),
+                      );
+                      loadImage();
+                      Navigator.pop(context, true);
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(

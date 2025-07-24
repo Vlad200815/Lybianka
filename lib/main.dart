@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
 import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
+import 'package:lybianka/repositories/aim_category/aim_category_repository.dart';
 import 'package:lybianka/repositories/category_repository/category_repository_export.dart';
 import 'package:lybianka/repositories/settings_repository/settings_repository.dart';
 import 'package:lybianka/router/router.dart';
@@ -27,6 +29,7 @@ void main() async {
 
   final categoryRepository = CategoryRepository(preferences: preferences);
   final settingsRepository = SettingsRepository(prefs: preferences);
+  final aimCategoryRepository = AimCategoryRepository(preferences: preferences);
 
   //for cleaning shared preferences if needed
   // await preferences.clear();
@@ -46,6 +49,10 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => ThemeCubit(settingsRepo: settingsRepository),
+        ),
+        BlocProvider(
+          create: (context) =>
+              AimCategoryBloc(aimCategoryRepo: aimCategoryRepository),
         ),
       ],
       child: const MyApp(),
