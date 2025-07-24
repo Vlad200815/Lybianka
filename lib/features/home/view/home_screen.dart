@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
+import 'package:lybianka/blocs/income_cubit/income_cubit.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -42,12 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<SettingsBloc>().add(OnGetProfileEvent());
     context.read<AimCategoryBloc>().add(OnGetAimCategoryEvent());
     loadImage();
+    // context.read<IncomeCubit>().loadWeekData();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    List<double> weekData = [1000, 1290, 2080, 2096, 2100, 1000, 1320];
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -349,74 +350,78 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               ///Graph----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>
-              Container(
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.onPrimary,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                height: 320,
-                child: BarChart(
-                  BarChartData(
-                    borderData: FlBorderData(show: false),
-                    barTouchData: BarTouchData(enabled: false),
-                    maxY: 3000,
-                    barGroups: List.generate(7, (index) {
-                      return BarChartGroupData(
-                        x: index,
-                        barRods: [
-                          BarChartRodData(
-                            toY: weekData[index],
-                            borderRadius: BorderRadius.circular(30),
-                            gradient: LinearGradient(
-                              colors: [
-                                theme.colorScheme.tertiary,
-                                theme.colorScheme.secondary,
-                                theme.colorScheme.primary,
-                              ],
-                              transform: GradientRotation(pi / 40),
-                            ),
-                            width: 10,
-                            fromY: 0,
-                            backDrawRodData: BackgroundBarChartRodData(
-                              show: true,
-                              toY: 5,
-                              color: Colors.grey[300],
-                            ),
-                            color: (_selectedDate.weekday - 1) == index
-                                ? Colors.blue
-                                : Colors.grey,
-                          ),
-                        ],
-                      );
-                    }),
-                    titlesData: FlTitlesData(
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          getTitlesWidget: (value, meta) {
-                            const days = [
-                              'Mo',
-                              'Tu',
-                              'We',
-                              'Th',
-                              'Fr',
-                              'Sa',
-                              'Su',
-                            ];
-                            return Text(
-                              days[value.toInt()],
-                              style: TextStyle(
-                                color: theme.colorScheme.outline,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
+              BlocBuilder<IncomeCubit, IncomeCubitState>(
+                builder: (context, state) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.onPrimary,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    height: 320,
+                    child: BarChart(
+                      BarChartData(
+                        borderData: FlBorderData(show: false),
+                        barTouchData: BarTouchData(enabled: false),
+                        maxY: 3000,
+                        barGroups: List.generate(7, (index) {
+                          return BarChartGroupData(
+                            x: index,
+                            barRods: [
+                              BarChartRodData(
+                                toY: state.weekData[index],
+                                borderRadius: BorderRadius.circular(30),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    theme.colorScheme.tertiary,
+                                    theme.colorScheme.secondary,
+                                    theme.colorScheme.primary,
+                                  ],
+                                  transform: GradientRotation(pi / 40),
+                                ),
+                                width: 10,
+                                fromY: 0,
+                                backDrawRodData: BackgroundBarChartRodData(
+                                  show: true,
+                                  toY: 5,
+                                  color: Colors.grey[300],
+                                ),
+                                color: (_selectedDate.weekday - 1) == index
+                                    ? Colors.blue
+                                    : Colors.grey,
                               ),
-                            );
-                          },
+                            ],
+                          );
+                        }),
+                        titlesData: FlTitlesData(
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: (value, meta) {
+                                const days = [
+                                  'Mo',
+                                  'Tu',
+                                  'We',
+                                  'Th',
+                                  'Fr',
+                                  'Sa',
+                                  'Su',
+                                ];
+                                return Text(
+                                  days[value.toInt()],
+                                  style: TextStyle(
+                                    color: theme.colorScheme.outline,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ],
           ),

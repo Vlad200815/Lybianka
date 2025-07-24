@@ -162,9 +162,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 10),
               MyTile(
                 icon: Icon(Icons.door_front_door, color: Colors.red, size: 30),
-                text: "Sign Out",
+                text: "Delete everything",
                 onPressed: () {
-                  //TODO: Sign out logic
+                  //TODO: delete logic
                 },
               ),
               MyTile(

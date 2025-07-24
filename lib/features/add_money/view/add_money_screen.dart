@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:lybianka/blocs/income_cubit/income_cubit.dart';
 import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
 import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
+import 'package:lybianka/repositories/graphic_repository/model/income_entry_model.dart';
 import 'package:uuid/uuid.dart';
 import '../../widgets/widgets.dart';
 
@@ -301,7 +303,6 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                       icon: Image.asset(berries[selectedBerry], scale: 15),
                     ),
                     MyTextField(
-                      //TODO: make the starting color black when it is our dark theme
                       fillColor: pickerColor,
                       readOnly: true,
                       onTap: () {
@@ -376,17 +377,16 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                     BlocListener<CategoryBloc, CategoryState>(
                       listener: (context, state) {
                         if (state is SaveCategorySuccessState) {
-                          log("-------------Added successfully---------------");
                           Navigator.pop(context);
                         } else if (state is CategoryProgressState) {
                           isProgress = true;
                         } else {
-                          log("ERROR");
+                          debugPrint("ERROR");
                         }
                       },
                       child: isProgress == false
                           ? GradientButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (!isProfit && !isExpanse) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -434,13 +434,18 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                       date: _dateFieldController.text,
                                     ),
                                   );
-                                  //TODO: delete 420 line if it doesn't work
                                   context.read<MoneyBloc>().add(
                                     OnSaveMoneyEvent(),
                                   );
                                   context.read<MoneyBloc>().add(
                                     OnGetMoneyEvent(),
                                   );
+
+                                  if (isProfit) {
+                                    context.read<IncomeCubit>().saveIncomeEntry(
+                                      IncomeEntry(date: now, amount: money),
+                                    );
+                                  }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
