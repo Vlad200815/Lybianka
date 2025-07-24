@@ -174,6 +174,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             int percentage =
                                 ((money / state.aimCategory.price) * 100)
                                     .round();
+                            double percent = money / state.aimCategory.price;
+                            if (percent >= 1 || percentage >= 100) {
+                              percent = 1;
+                              percentage = 100;
+                            }
                             return Container(
                               height: 200,
                               width: double.infinity,
@@ -204,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                       radius: 50,
                                       lineWidth: 8,
-                                      percent: money / state.aimCategory.price,
+                                      percent: percent,
                                       progressColor: const Color.fromARGB(
                                         255,
                                         255,
