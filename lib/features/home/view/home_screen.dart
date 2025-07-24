@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 45,
+                                  fontSize: 60,
                                 ),
                               ),
                             ],
@@ -172,10 +172,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       backWidget: BlocBuilder<AimCategoryBloc, AimCategoryState>(
                         builder: (context, state) {
                           if (state is AimCategoryGetSuccessState) {
-                            int percentage =
-                                ((money / state.aimCategory.price) * 100)
-                                    .round();
-                            double percent = money / state.aimCategory.price;
+                            int percentage = 0;
+                            double percent = 0;
+                            if (money != 0 || state.aimCategory.price != 0) {
+                              percentage =
+                                  ((money / state.aimCategory.price) * 100)
+                                      .round();
+                              percent = money / state.aimCategory.price;
+                            }
+
                             if (percent >= 1 || percentage >= 100) {
                               percent = 1;
                               percentage = 100;

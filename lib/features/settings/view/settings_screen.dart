@@ -109,14 +109,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            "svg110308@gmail.com",
-                            style: TextStyle(
-                              color: theme.colorScheme.outline,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
                         ],
                       ),
                     ],
