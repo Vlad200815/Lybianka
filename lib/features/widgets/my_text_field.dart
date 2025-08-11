@@ -12,6 +12,7 @@ class MyTextField extends StatelessWidget {
     this.suffixIcon,
     this.validator,
     this.keyboardType,
+    this.style,
   });
 
   final TextEditingController controller;
@@ -23,12 +24,14 @@ class MyTextField extends StatelessWidget {
   Widget? suffixIcon;
   String? Function(String?)? validator;
   TextInputType? keyboardType;
+  TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: TextFormField(
+        style: style,
         keyboardType: keyboardType,
         validator: validator,
         controller: controller,

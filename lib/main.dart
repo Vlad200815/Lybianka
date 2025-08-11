@@ -35,7 +35,7 @@ void main() async {
   final graphicRepository = GraphicRepository(preferences: preferences);
 
   //for cleaning shared preferences if needed
-  await preferences.clear();
+  // await preferences.clear();
 
   runApp(
     MultiBlocProvider(

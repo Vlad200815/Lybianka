@@ -58,6 +58,8 @@ dependencies:
 
   path: ^1.9.1
   path_provider: ^2.1.5
+
+  animated_text_kit: ^4.2.3
   
 dev_dependencies:
   flutter_test:
@@ -126,6 +128,16 @@ flutter:
   #Screamer
     - "assets/screamer/screamer.mp4"
     - "assets/screamer/screamer2.mp4"
+  #Ninjies
+    - "assets/intro_icons/angel_ninji_2.png"
+    - "assets/intro_icons/angel_ninji.png"
+    - "assets/intro_icons/demon_ninji_2.png"
+    - "assets/intro_icons/demon_ninji.png"
+    - "assets/intro_icons/blood.webp"
+    - "assets/intro_icons/mid_ninji.png"
+
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
