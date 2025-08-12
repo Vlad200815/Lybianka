@@ -7,8 +7,10 @@ sealed class IntroEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OnSaveIntroEvent extends IntroEvent {
-  const OnSaveIntroEvent({required this.introModel});
+class OnGetNameEvent extends IntroEvent {}
+
+class OnSaveIntroDataEvent extends IntroEvent {
+  const OnSaveIntroDataEvent({required this.introModel});
 
   final IntroModel introModel;
 
@@ -16,4 +18,4 @@ class OnSaveIntroEvent extends IntroEvent {
   List<Object> get props => [introModel];
 }
 
-class OnGetIntroEvent extends IntroEvent {}
+class OnIsSeenIntroEvent extends IntroEvent {}

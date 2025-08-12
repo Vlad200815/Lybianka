@@ -70,6 +70,16 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
     }
   }
 
+  @override
+  void dispose() {
+    _moneyFieldController.dispose();
+    _whatJobFieldController.dispose();
+    _dateFieldController.dispose();
+    _colorFieldController.dispose();
+    _iconFieldController.dispose();
+    super.dispose();
+  }
+
   void showBerryPickerDialog(BuildContext context) {
     final theme = Theme.of(context);
     int tempSelectedBerry = selectedBerry;

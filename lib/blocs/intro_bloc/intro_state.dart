@@ -9,15 +9,18 @@ sealed class IntroState extends Equatable {
 
 final class IntroInitial extends IntroState {}
 
-final class IntroProgressState extends IntroState {}
+final class IntroGetNameSuccessState extends IntroState {
+  const IntroGetNameSuccessState({required this.name});
+
+  final String name;
+}
+
+final class IntroIsSeenSuccessState extends IntroState {
+  const IntroIsSeenSuccessState({required this.isSeen});
+
+  final bool isSeen;
+}
 
 final class IntroFailureState extends IntroState {}
 
-final class IntroSuccessState extends IntroState {
-  const IntroSuccessState({required this.introModel});
-
-  final IntroModel introModel;
-
-  @override
-  List<Object> get props => [introModel];
-}
+final class IntroProgressState extends IntroState {}

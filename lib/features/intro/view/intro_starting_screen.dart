@@ -55,19 +55,9 @@ class IntroStartingScreen extends StatelessWidget {
                       child: SizedBox(),
                     ),
                     const SizedBox(width: 8),
-                    GradientBox(
-                      height: 7,
-                      radius: 0,
-                      width: 50,
-                      child: SizedBox(),
-                    ),
+                    Container(color: Colors.grey[300], width: 50, height: 7),
                     const SizedBox(width: 8),
-                    GradientBox(
-                      height: 7,
-                      radius: 0,
-                      width: 50,
-                      child: SizedBox(),
-                    ),
+                    Container(color: Colors.grey[300], width: 50, height: 7),
                   ],
                 ),
                 GestureDetector(

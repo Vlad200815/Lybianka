@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
 import 'package:lybianka/features/add_money/add_money.dart';
 import 'package:lybianka/features/set_aim/image_helper/image_helper.dart';
@@ -48,6 +47,13 @@ class _SetAimScreenState extends State<SetAimScreen> {
   void initState() {
     super.initState();
     loadImage();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _priceController.dispose();
+    super.dispose();
   }
 
   @override
