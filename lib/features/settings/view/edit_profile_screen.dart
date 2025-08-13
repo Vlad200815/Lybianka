@@ -15,15 +15,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   List<String> faces = [
     "assets/appearences/person.png",
     "assets/appearences/bearded_woman.png",
-    "assets/appearences/blond_man.png",
     "assets/appearences/blond_woman.png",
     "assets/appearences/bride.png",
-    "assets/appearences/man.png",
-    "assets/appearences/curly_man.png",
-    "assets/appearences/curly_woman.png",
     "assets/appearences/dancer.png",
-    "assets/appearences/girl.png",
-    "assets/appearences/grey_haired_man.png",
     "assets/appearences/hand.png",
     "assets/appearences/lion.png",
     "assets/appearences/ninji.png",
@@ -33,11 +27,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     "assets/appearences/whale.png",
     "assets/appearences/wolf.png",
     "assets/appearences/gorila.png",
-    // "assets/appearences/ukraine.png",
-    // "assets/appearences/poland.png",
     // "assets/appearences/baby.png",
     // "assets/appearences/angel.png",
-    // "assets/appearences/finger.png",
+    "assets/appearences/finger.png",
+    "assets/appearences/alien.png",
+    "assets/appearences/clone.png",
+    "assets/appearences/devel.png",
+    "assets/appearences/frozen.png",
+    "assets/appearences/hot.png",
   ];
 
   List<Color> backgroundColors = [

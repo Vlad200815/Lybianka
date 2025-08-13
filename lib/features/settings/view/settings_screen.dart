@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           elevation: 0,
           backgroundColor: theme.colorScheme.onSecondary,
           title: Text(
-            "Settings",
+            "Налаштування",
             style: TextStyle(
               color: theme.colorScheme.onSurface,
               fontSize: 30,
@@ -138,7 +138,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               BlocBuilder<ThemeCubit, ThemeState>(
                 builder: (context, state) {
                   return MySwitch(
-                    text: "Dark Theme",
+                    text: "Чорна тема",
                     value: state.brightness == Brightness.dark ? true : false,
                     onChanged: (value) {
                       setState(() {
@@ -151,7 +151,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
               MySwitch(
-                text: "Notifications",
+                text: "Повідомлення",
                 value: notificationSwitch,
                 onChanged: (value) {
                   setState(() {
@@ -161,7 +161,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
               MySwitch(
-                text: "Allow Analitics",
+                text: "Нотиіфкації",
                 value: allowAnalitics,
                 onChanged: (value) {
                   setState(() {
@@ -173,7 +173,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 10),
               MyTile(
                 icon: Icon(Icons.door_front_door, color: Colors.red, size: 30),
-                text: "Delete everything",
+                text: "Видалити все",
                 onPressed: () async {
                   final preferences = await SharedPreferences.getInstance();
                   await preferences.clear();
@@ -185,7 +185,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               MyTile(
                 icon: Icon(Icons.telegram, color: Colors.blue, size: 30),
-                text: "Report a Bug",
+                text: "Повідомити про баг",
                 onPressed: () async {
                   await launchUrl(url);
                 },

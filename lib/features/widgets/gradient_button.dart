@@ -29,7 +29,7 @@ class GradientButton extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPressed,
           child: Text(
-            "SAVE",
+            "Зберегти",
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,

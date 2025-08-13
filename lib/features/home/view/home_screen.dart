@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
-import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/income_cubit/income_cubit.dart';
 import 'package:lybianka/blocs/intro_bloc/intro_bloc.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
@@ -98,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Welcome!",
+                            "Ласкаво просимо!",
                             style: TextStyle(
                               color: const Color.fromARGB(255, 148, 148, 148),
                               fontWeight: FontWeight.w800,
@@ -176,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "Total Balance",
+                                "Весь Баланс",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -357,11 +356,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Week Preformance",
+                      "Тиждневий Заробіток",
                       style: TextStyle(
                         color: theme.colorScheme.onSurface,
                         fontWeight: FontWeight.w800,
-                        fontSize: 24,
+                        fontSize: 20,
                       ),
                     ),
                     TextButton(
@@ -369,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pushNamed(context, "/history");
                       },
                       child: Text(
-                        "View All",
+                        "Дивитися",
                         style: TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.w700,
@@ -430,13 +429,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               showTitles: true,
                               getTitlesWidget: (value, meta) {
                                 const days = [
-                                  'Mo',
-                                  'Tu',
-                                  'We',
-                                  'Th',
-                                  'Fr',
-                                  'Sa',
-                                  'Su',
+                                  'Пн',
+                                  'Вт',
+                                  'Ср',
+                                  'Чт',
+                                  'Пт',
+                                  'Сб',
+                                  'Нд',
                                 ];
                                 return Text(
                                   days[value.toInt()],

@@ -38,18 +38,27 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   // Color colors = Color(4292352281);
 
   List<String> berries = [
+    "assets/berries/money.png",
     "assets/berries/strabbery.png",
-    "assets/berries/blue_berries.png",
-    "assets/berries/cherry.png",
-    "assets/berries/chily.png",
-    "assets/berries/cucumber.png",
-    "assets/berries/green_apple.png",
-    "assets/berries/mushroom.png",
-    "assets/berries/pear.png",
+    // "assets/berries/blue_berries.png",
+    // "assets/berries/cherry.png",
+    // "assets/berries/chily.png",
+    // "assets/berries/cucumber.png",
+    // "assets/berries/green_apple.png",
+    // "assets/berries/mushroom.png",
+    // "assets/berries/pear.png",
     "assets/berries/pitch.png",
-    "assets/berries/red_apple.png",
-    "assets/berries/tomato.png",
+    // "assets/berries/red_apple.png",
+    // "assets/berries/tomato.png",
     "assets/berries/banana.png",
+    "assets/berries/love.png",
+    "assets/berries/nails.png",
+    "assets/berries/teaching.png",
+    "assets/berries/trevel.png",
+    "assets/berries/cart.png",
+    "assets/berries/casino.png",
+    "assets/berries/key.png",
+    "assets/berries/mountain.png",
   ];
 
   bool isProgress = false;

@@ -254,6 +254,224 @@ class AdviseScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 15),
+              Container(
+                width: double.infinity,
+                height: 140,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.tertiary,
+                      theme.colorScheme.secondary,
+                      theme.colorScheme.primary,
+                    ],
+                    transform: const GradientRotation(pi / 4),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "'Будьте пристрасними у тому, що робите, і гроші прийдуть самі.'",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.width / 35),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "— Річард Бренсон",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              Container(
+                width: double.infinity,
+                height: 170,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.tertiary,
+                      theme.colorScheme.secondary,
+                      theme.colorScheme.primary,
+                    ],
+                    transform: const GradientRotation(pi / 4),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "'Довгострокова перспектива важливіша за короткостроковий прибуток. Терпіння винагороджується.'",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.width / 35),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "— Джефф Безос",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+
+              Container(
+                width: double.infinity,
+                height: 140,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.tertiary,
+                      theme.colorScheme.secondary,
+                      theme.colorScheme.primary,
+                    ],
+                    transform: const GradientRotation(pi / 4),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "'Фінансова свобода починається з контролю над власними витратами і звичками.'",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.width / 35),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "— Тоні Роббінс",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+
+              Container(
+                width: double.infinity,
+                height: 140,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.tertiary,
+                      theme.colorScheme.secondary,
+                      theme.colorScheme.primary,
+                    ],
+                    transform: const GradientRotation(pi / 4),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "'Інновації створюють багатство. Думайте про проблеми людей і вирішуйте їх.'",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.width / 35),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "— Білл Гейтс",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 15),
+              Container(
+                width: double.infinity,
+                height: 140,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.tertiary,
+                      theme.colorScheme.secondary,
+                      theme.colorScheme.primary,
+                    ],
+                    transform: const GradientRotation(pi / 4),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        "'Не вкладайтеся в те, чого не розумієте. Розуміння ризику — ключ до багатства.'",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.width / 35),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "— Кен Хенсон",
+                          style: TextStyle(
+                            color: Colors.grey[200],
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
             ],
           ),
         ),

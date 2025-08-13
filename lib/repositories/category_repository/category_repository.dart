@@ -111,16 +111,10 @@ class CategoryRepository implements CategoryRepositoryInterface {
     try {
       double? money = preferences.getDouble(_allMoney);
       double? startingMoney = preferences.getDouble("starting_money") ?? 0;
+
       log("startring money === $startingMoney and money === $money");
 
       if (money != null) {
-        // if (isTakkenStartingMoney == false) {
-        //   money = money + startingMoney;
-        //   isTakkenStartingMoney = true;
-        //   log("Starting Money was added");
-        // }
-
-        // money = money + startingMoney;
         log("Your money is $money");
         return money;
       } else {

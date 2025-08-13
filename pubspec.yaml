@@ -59,8 +59,7 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
 
-  animated_text_kit: ^4.2.3
-  
+  flutter_launcher_icons: ^0.14.4  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -71,6 +70,14 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: "AppIcon"
+  image_path: "assets/app_icon/app_icon.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -111,6 +118,11 @@ flutter:
     - assets/appearences/unicorn.png
     - assets/appearences/whale.png
     - assets/appearences/wolf.png
+    - assets/appearences/alien.png
+    - assets/appearences/clone.png
+    - assets/appearences/devel.png
+    - assets/appearences/frozen.png
+    - assets/appearences/hot.png
   #Berries
     - assets/berries/strabbery.png
     - assets/berries/blue_berries.png
@@ -124,6 +136,17 @@ flutter:
     - assets/berries/red_apple.png
     - assets/berries/tomato.png
     - assets/berries/banana.png
+    - assets/berries/love.png
+    - assets/berries/money.png
+    - assets/berries/nails.png
+    - assets/berries/teaching.png
+    - assets/berries/trevel.png
+    - assets/berries/cart.png
+    - assets/berries/casino.png
+    - assets/berries/chrismas.png
+    - assets/berries/key.png
+    - assets/berries/mountain.png
+
   #   - images/a_dot_ham.jpeg
   #Screamer
     - "assets/screamer/screamer.mp4"
@@ -164,3 +187,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
