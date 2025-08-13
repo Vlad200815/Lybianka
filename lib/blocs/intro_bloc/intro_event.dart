@@ -10,12 +10,13 @@ sealed class IntroEvent extends Equatable {
 class OnGetNameEvent extends IntroEvent {}
 
 class OnSaveIntroDataEvent extends IntroEvent {
-  const OnSaveIntroDataEvent({required this.introModel});
+  const OnSaveIntroDataEvent({required this.name, required this.startingMoney});
 
-  final IntroModel introModel;
+  final String name;
+  final double startingMoney;
 
   @override
-  List<Object> get props => [introModel];
+  List<Object> get props => [name, startingMoney];
 }
 
 class OnIsSeenIntroEvent extends IntroEvent {}

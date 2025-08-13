@@ -1,15 +1,20 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
 import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/income_cubit/income_cubit.dart';
+import 'package:lybianka/blocs/intro_bloc/intro_bloc.dart';
+import 'package:lybianka/blocs/intro_bloc/is_intro_seen_cubit/is_seen_cubit.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
 import 'package:lybianka/repositories/aim_category/aim_category_repository.dart';
 import 'package:lybianka/repositories/category_repository/category_repository_export.dart';
 import 'package:lybianka/repositories/graphic_repository/graphic_repository.dart';
+import 'package:lybianka/repositories/intro_repository/intro_repository.dart';
 import 'package:lybianka/repositories/settings_repository/settings_repository.dart';
 import 'package:lybianka/router/router.dart';
 import 'package:lybianka/theme/theme.dart';
@@ -33,9 +38,7 @@ void main() async {
   final settingsRepository = SettingsRepository(prefs: preferences);
   final aimCategoryRepository = AimCategoryRepository(preferences: preferences);
   final graphicRepository = GraphicRepository(preferences: preferences);
-
-  //for cleaning shared preferences if needed
-  // await preferences.clear();
+  final introRepository = IntroRepository(prefs: preferences);
 
   runApp(
     MultiBlocProvider(
@@ -60,6 +63,13 @@ void main() async {
         BlocProvider(
           create: (context) => IncomeCubit(graphicRepo: graphicRepository),
         ),
+        BlocProvider(
+          create: (context) =>
+              IntroBloc(introRepo: introRepository)..add(OnIsSeenIntroEvent()),
+        ),
+        BlocProvider(
+          create: (context) => IsSeenCubit(introRepo: introRepository),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -71,13 +81,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ThemeCubit, ThemeState>(
-      builder: (context, state) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: state.brightness == Brightness.light ? lightTheme : darkTheme,
-          routes: routes,
-          initialRoute: initialRoute,
+    return BlocBuilder<IsSeenCubit, IsSeenState>(
+      builder: (context, isSeenState) {
+        return BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, themeState) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: themeState.brightness == Brightness.light
+                  ? lightTheme
+                  : darkTheme,
+              routes: routes,
+              initialRoute: isSeenState.route,
+            );
+          },
         );
       },
     );

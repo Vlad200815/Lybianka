@@ -10,12 +10,13 @@ class IntroRepository implements IntroInterfaceRepository {
 
   static const _hasIntroSeenKey = "has_intro_seen";
   static const _nameKey = "name";
+  static const _strtingMoney = "starting_money";
 
   @override
   Future<void> setIntroSeen(IntroModel introModel) async {
     try {
       await prefs.setString(_nameKey, introModel.name);
-      await prefs.setDouble("all_money", introModel.startingMoney);
+      await prefs.setDouble(_strtingMoney, introModel.startingMoney);
       await prefs.setBool(_hasIntroSeenKey, true);
     } catch (e) {
       log(e.toString());
@@ -23,7 +24,7 @@ class IntroRepository implements IntroInterfaceRepository {
   }
 
   @override
-  Future<bool> hasIntroSeen() async {
+  bool hasIntroSeen() {
     return prefs.getBool(_hasIntroSeenKey) ?? false;
   }
 

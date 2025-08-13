@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lybianka/blocs/intro_bloc/intro_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../settings.dart';
@@ -33,6 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
+          leading: SizedBox(),
           elevation: 0,
           backgroundColor: theme.colorScheme.onSecondary,
           title: Text(
@@ -64,6 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     vertical: 10,
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -98,18 +102,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       const SizedBox(width: 15),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Vlad Semeniuk",
-                            style: TextStyle(
-                              color: theme.colorScheme.onSurface,
-                              fontSize: 21,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+
+                      BlocBuilder<IntroBloc, IntroState>(
+                        builder: (context, state) {
+                          if (state is IntroGetNameSuccessState) {
+                            return Center(
+                              child: Text(
+                                state.name,
+                                style: TextStyle(
+                                  color: theme.colorScheme.onSurface,
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            );
+                          } else if (state is IntroProgressState) {
+                            return Center(child: CircularProgressIndicator());
+                          } else {
+                            return Text(
+                              "User",
+                              style: TextStyle(
+                                color: theme.colorScheme.onSurface,
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -155,8 +174,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               MyTile(
                 icon: Icon(Icons.door_front_door, color: Colors.red, size: 30),
                 text: "Delete everything",
-                onPressed: () {
-                  //TODO: delete logic
+                onPressed: () async {
+                  final preferences = await SharedPreferences.getInstance();
+                  await preferences.clear();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/',
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
               MyTile(

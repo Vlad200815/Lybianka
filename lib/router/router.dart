@@ -20,7 +20,7 @@ Map<String, Widget Function(BuildContext)> routes = {
 
   "/home": (context) => const MyBottomBar(),
   "/history": (context) => const HistoryScreen(),
-  "/add_money": (context) => AddMoneyScreen(),
+  "/add_money": (context) => const AddMoneyScreen(),
   "/settings": (context) => const SettingsScreen(),
   "/settings/edit_profile": (context) => const EditProfileScreen(),
   "/settings/screamer": (context) => const ScreamerScreen(),

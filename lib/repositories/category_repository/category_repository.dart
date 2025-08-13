@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'category_repository_export.dart';
 
@@ -11,8 +10,8 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   static const _allMoney = "all_money";
   static const _allHistory = "all_history";
-  static const _graphHistory = "graphHistory";
-  List<double> graphList = [0, 0, 0, 0, 0, 0, 0];
+
+  bool isTakkenStartingMoney = false;
 
   @override
   Future<void> saveCategory(Category category) async {
@@ -77,6 +76,10 @@ class CategoryRepository implements CategoryRepositoryInterface {
   Future<void> saveMoney() async {
     try {
       double money = 0;
+
+      double startingMoney = preferences.getDouble("starting_money") ?? 0;
+      money = money + startingMoney;
+
       final String? jsonString = preferences.getString(_allHistory);
       List<Category> categoryList = [];
 
@@ -107,11 +110,21 @@ class CategoryRepository implements CategoryRepositoryInterface {
   Future<double> getMoney() async {
     try {
       double? money = preferences.getDouble(_allMoney);
+      double? startingMoney = preferences.getDouble("starting_money") ?? 0;
+      log("startring money === $startingMoney and money === $money");
+
       if (money != null) {
+        // if (isTakkenStartingMoney == false) {
+        //   money = money + startingMoney;
+        //   isTakkenStartingMoney = true;
+        //   log("Starting Money was added");
+        // }
+
+        // money = money + startingMoney;
         log("Your money is $money");
         return money;
       } else {
-        return 0;
+        return startingMoney;
       }
     } catch (e) {
       log(e.toString());

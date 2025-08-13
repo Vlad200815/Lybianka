@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:lybianka/blocs/intro_bloc/intro_bloc.dart';
 import 'package:lybianka/features/intro/widgets/widgets.dart';
 import 'package:lybianka/features/widgets/my_text_field.dart';
 
@@ -121,6 +123,13 @@ class _IntroInfoScreenState extends State<IntroInfoScreen> {
                           );
                           return;
                         }
+                        String name = _nameController.text;
+                        context.read<IntroBloc>().add(
+                          OnSaveIntroDataEvent(
+                            name: name,
+                            startingMoney: money,
+                          ),
+                        );
                         Navigator.pushNamed(context, "/disclaimer");
                       }
                     },

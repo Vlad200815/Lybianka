@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_flip_card/flutter_flip_card.dart';
 import 'package:lybianka/blocs/aim_category_bloc/aim_category_bloc.dart';
+import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/income_cubit/income_cubit.dart';
+import 'package:lybianka/blocs/intro_bloc/intro_bloc.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/settings_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _image = File("$path/$fileName");
       });
-      print("---------------------------reloads-----------------------------");
+      print(
+        "---------------------------Reloads Aim Image-----------------------------",
+      );
     }
   }
 
@@ -42,14 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<MoneyBloc>().add(OnGetMoneyEvent());
     context.read<SettingsBloc>().add(OnGetProfileEvent());
     context.read<AimCategoryBloc>().add(OnGetAimCategoryEvent());
+    context.read<IntroBloc>().add(OnGetNameEvent());
     loadImage();
-    // context.read<IncomeCubit>().loadWeekData();
+    context.read<IncomeCubit>().loadWeekData();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
       body: Padding(
@@ -58,57 +62,80 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BlocBuilder<SettingsBloc, SettingsState>(
-                    builder: (context, state) {
-                      if (state is SettingsGetSuccessState) {
-                        return Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color(state.profileModel.background),
-                            borderRadius: BorderRadius.circular(25),
-                            border: Border.all(
-                              color: Color(state.profileModel.border),
-                              width: 2,
-                            ),
-                          ),
-                          child: Center(
-                            child: Image.asset(
-                              state.profileModel.avatar,
-                              height: 35,
-                            ),
-                          ),
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    },
-                  ),
-                  const SizedBox(width: 10),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Text(
-                        "Welcome!",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 148, 148, 148),
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14,
-                        ),
+                      BlocBuilder<SettingsBloc, SettingsState>(
+                        builder: (context, state) {
+                          if (state is SettingsGetSuccessState) {
+                            return Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Color(state.profileModel.background),
+                                borderRadius: BorderRadius.circular(25),
+                                border: Border.all(
+                                  color: Color(state.profileModel.border),
+                                  width: 2,
+                                ),
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  state.profileModel.avatar,
+                                  height: 35,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        },
                       ),
-                      Text(
-                        "Vlad Semeniuk",
-                        style: TextStyle(
-                          color: theme.colorScheme.onSurface,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 17,
-                        ),
+                      const SizedBox(width: 15),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome!",
+                            style: TextStyle(
+                              color: const Color.fromARGB(255, 148, 148, 148),
+                              fontWeight: FontWeight.w800,
+                              fontSize: 14,
+                            ),
+                          ),
+                          BlocBuilder<IntroBloc, IntroState>(
+                            builder: (context, state) {
+                              if (state is IntroGetNameSuccessState) {
+                                return Text(
+                                  state.name,
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onSurface,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 17,
+                                  ),
+                                );
+                              } else if (state is IntroProgressState) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Text(
+                                  "User",
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onSurface,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 17,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  SizedBox(width: MediaQuery.of(context).size.width / 3.5),
                   IconButton(
                     onPressed: () => Navigator.pushNamed(context, "/advise"),
                     icon: Icon(Icons.lightbulb, color: Colors.yellow, size: 30),
@@ -174,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (state is AimCategoryGetSuccessState) {
                             int percentage = 0;
                             double percent = 0;
-                            if (money != 0 || state.aimCategory.price != 0) {
+                            if (money != 0 && state.aimCategory.price != 0) {
                               percentage =
                                   ((money / state.aimCategory.price) * 100)
                                       .round();
