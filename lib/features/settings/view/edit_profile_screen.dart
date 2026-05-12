@@ -12,7 +12,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  List<String> faces = [
+  final List<String> _avatars = [
     "assets/appearences/person.png",
     "assets/appearences/bearded_woman.png",
     "assets/appearences/blond_woman.png",
@@ -26,9 +26,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     "assets/appearences/unicorn.png",
     "assets/appearences/whale.png",
     "assets/appearences/wolf.png",
-    "assets/appearences/gorila.png",
-    // "assets/appearences/baby.png",
-    // "assets/appearences/angel.png",
+    "assets/appearences/gorilla.png",
     "assets/appearences/finger.png",
     "assets/appearences/alien.png",
     "assets/appearences/clone.png",
@@ -37,27 +35,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     "assets/appearences/hot.png",
   ];
 
-  List<Color> backgroundColors = [
+  final List<Color> _profileColors = [
     Colors.redAccent,
     const Color(0xFF00B2E7),
     Colors.lightGreenAccent,
     Colors.black,
-    Color(0xFFE064F7),
-    Color(0xFFFF8D6C),
+    const Color(0xFFE064F7),
+    const Color(0xFFFF8D6C),
   ];
 
-  List<Color> borderColors = [
-    Colors.redAccent,
-    const Color(0xFF00B2E7),
-    Colors.lightGreenAccent,
-    Colors.black,
-    Color(0xFFE064F7),
-    Color(0xFFFF8D6C),
-  ];
-
-  int selectedFace = 0;
-  int selectedBackgroundColor = 0;
-  int selectedBorderColor = 0;
+  int _selectedAvatarIndex = 0;
+  int _selectedBackgroundColorIndex = 0;
+  int _selectedBorderColorIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -113,12 +102,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(75),
                           border: Border.all(
-                            color: borderColors[selectedBorderColor],
+                            color: _profileColors[_selectedBorderColorIndex],
                             width: 3,
                           ),
-                          color: backgroundColors[selectedBackgroundColor],
+                          color: _profileColors[_selectedBackgroundColorIndex],
                         ),
-                        child: Image.asset(faces[selectedFace], scale: 6),
+                        child: Image.asset(
+                          _avatars[_selectedAvatarIndex],
+                          scale: 6,
+                        ),
                       ),
                       const SizedBox(height: 15),
                       Text(
@@ -144,7 +136,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    selectedFace = index;
+                                    _selectedAvatarIndex = index;
                                   });
                                 },
                                 child: Container(
@@ -157,13 +149,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     ),
                                     borderRadius: BorderRadius.circular(5),
                                     border: Border.all(
-                                      color: selectedFace == index
+                                      color: _selectedAvatarIndex == index
                                           ? Colors.green
                                           : Colors.grey,
                                       width: 2,
                                     ),
                                   ),
-                                  child: Image.asset(faces[index], scale: 5),
+                                  child: Image.asset(_avatars[index], scale: 5),
                                 ),
                               ),
                             );
@@ -182,23 +174,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Wrap(
                         spacing: 5,
                         runSpacing: 10,
-                        children: List.generate(backgroundColors.length, (
-                          index,
-                        ) {
+                        children: List.generate(_profileColors.length, (index) {
                           return GestureDetector(
                             onTap: () {
                               setState(() {
-                                selectedBackgroundColor = index;
+                                _selectedBackgroundColorIndex = index;
                               });
                             },
                             child: Container(
                               width: 35,
                               height: 35,
                               decoration: BoxDecoration(
-                                color: backgroundColors[index],
+                                color: _profileColors[index],
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
-                                  color: selectedBackgroundColor == index
+                                  color: _selectedBackgroundColorIndex == index
                                       ? Colors.green
                                       : Colors.grey.shade300,
                                   width: 2,
@@ -220,21 +210,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Wrap(
                         spacing: 5,
                         runSpacing: 10,
-                        children: List.generate(borderColors.length, (index) {
+                        children: List.generate(_profileColors.length, (index) {
                           return GestureDetector(
                             onTap: () {
                               setState(() {
-                                selectedBorderColor = index;
+                                _selectedBorderColorIndex = index;
                               });
                             },
                             child: Container(
                               width: 35,
                               height: 35,
                               decoration: BoxDecoration(
-                                color: borderColors[index],
+                                color: _profileColors[index],
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
-                                  color: selectedBorderColor == index
+                                  color: _selectedBorderColorIndex == index
                                       ? Colors.green
                                       : Colors.grey.shade300,
                                   width: 2,
@@ -255,15 +245,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   context.read<SettingsBloc>().add(
                     OnSaveProfileEvent(
                       profileModel: ProfileModel(
-                        avatar: faces[selectedFace],
+                        avatar: _avatars[_selectedAvatarIndex],
                         background:
-                            backgroundColors[selectedBackgroundColor].value,
-                        border: borderColors[selectedBorderColor].value,
+                            _profileColors[_selectedBackgroundColorIndex]
+                                .toARGB32(),
+                        border: _profileColors[_selectedBorderColorIndex]
+                            .toARGB32(),
                       ),
                     ),
                   );
                   context.read<SettingsBloc>().add(OnGetProfileEvent());
-
                   Navigator.pop(context);
                 },
               ),

@@ -19,10 +19,7 @@ class IntroDisclaimerScreen extends StatelessWidget {
                 width: 300,
                 height: 300,
                 radius: 150,
-                child: Image.asset(
-                  "assets/intro_icons/demon_ninji.png",
-                  scale: 4.5,
-                ),
+                child: Image.asset("assets/intro/demon_ninji.png", scale: 4.5),
               ),
             ),
             const SizedBox(height: 25),
@@ -31,10 +28,7 @@ class IntroDisclaimerScreen extends StatelessWidget {
               children: [
                 Positioned(
                   left: 43,
-                  child: Image.asset(
-                    "assets/intro_icons/blood.webp",
-                    scale: 10,
-                  ),
+                  child: Image.asset("assets/intro/blood.webp", scale: 10),
                 ),
                 Text(
                   "Дисклеймер!",

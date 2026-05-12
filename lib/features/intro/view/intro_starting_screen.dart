@@ -19,10 +19,7 @@ class IntroStartingScreen extends StatelessWidget {
                 width: 300,
                 height: 300,
                 radius: 150,
-                child: Image.asset(
-                  "assets/intro_icons/angel_ninji.png",
-                  scale: 4,
-                ),
+                child: Image.asset("assets/intro/angel_ninji.png", scale: 4),
               ),
             ),
             const SizedBox(height: 25),

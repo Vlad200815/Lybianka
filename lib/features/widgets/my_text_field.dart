@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
-  MyTextField({
+  const MyTextField({
     super.key,
     required this.controller,
     required this.icon,
@@ -18,13 +18,13 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final Widget icon;
   final String hint;
-  void Function()? onTap;
-  bool? readOnly;
+  final void Function()? onTap;
+  final bool? readOnly;
   final Color fillColor;
-  Widget? suffixIcon;
-  String? Function(String?)? validator;
-  TextInputType? keyboardType;
-  TextStyle? style;
+  final Widget? suffixIcon;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {

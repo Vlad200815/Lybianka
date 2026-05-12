@@ -16,13 +16,11 @@ class _Screamer2ScreenState extends State<Screamer2Screen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset("assets/screamer/screamer2.mp4")
+    _controller = VideoPlayerController.asset("assets/screamers/screamer2.mp4")
       ..initialize().then((_) {
         setState(() {});
         _controller.play();
         _controller.setLooping(false);
-
-        // _playScreamer();
       });
   }
 

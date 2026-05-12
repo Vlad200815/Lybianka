@@ -2,15 +2,15 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 class ProfileModel extends Equatable {
-  ProfileModel({
+  const ProfileModel({
     required this.avatar,
     required this.background,
     required this.border,
   });
 
-  String avatar;
-  int background;
-  int border;
+  final String avatar;
+  final int background;
+  final int border;
 
   Map<String, dynamic> toJson() {
     return {"avatar": avatar, "background": background, "border": border};
@@ -27,8 +27,8 @@ class ProfileModel extends Equatable {
   factory ProfileModel.initial() {
     return ProfileModel(
       avatar: "assets/appearences/person.png",
-      background: Colors.redAccent.value,
-      border: Colors.redAccent.value,
+      background: Colors.redAccent.toARGB32(),
+      border: Colors.redAccent.toARGB32(),
     );
   }
 

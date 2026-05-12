@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Category extends Equatable {
-  Category({
+  const Category({
     required this.id,
     required this.isProfit,
     required this.money,
@@ -11,13 +11,13 @@ class Category extends Equatable {
     required this.date,
   });
 
-  String id;
-  bool isProfit;
-  double money;
-  String description;
-  String icon;
-  int color;
-  String date;
+  final String id;
+  final bool isProfit;
+  final double money;
+  final String description;
+  final String icon;
+  final int color;
+  final String date;
 
   Map<String, dynamic> toJson() => {
     "id": id,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MoneyTextField extends StatelessWidget {
-  const MoneyTextField({super.key, required this.moneyFieldController, r});
-
   final TextEditingController moneyFieldController;
+
+  const MoneyTextField({super.key, required this.moneyFieldController});
 
   @override
   Widget build(BuildContext context) {

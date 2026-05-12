@@ -16,7 +16,7 @@ class _ScreamerScreenState extends State<ScreamerScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset("assets/screamer/screamer.mp4")
+    _controller = VideoPlayerController.asset("assets/screamers/screamer.mp4")
       ..initialize().then((_) {
         setState(() {});
         _controller.play();

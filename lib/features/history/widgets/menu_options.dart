@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lybianka/features/add_money/view/add_money_screen.dart';
 import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 
@@ -13,7 +12,6 @@ class MenuOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -48,13 +46,11 @@ class MenuOptions extends StatelessWidget {
           listener: (context, state) {
             if (state is RemoveCategorySuccessState) {
               Navigator.pop(context);
-              log("Removed successfully");
             }
           },
           child: GestureDetector(
             onTap: () {
               context.read<CategoryBloc>().add(OnRemoveCategoryEvent(id: id));
-              //TODO check this
               context.read<MoneyBloc>().add(OnSaveMoneyEvent());
               context.read<MoneyBloc>().add(OnGetMoneyEvent());
               log("Trying to remove...");

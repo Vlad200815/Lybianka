@@ -42,10 +42,7 @@ class _IntroInfoScreenState extends State<IntroInfoScreen> {
                   width: 300,
                   height: 300,
                   radius: 150,
-                  child: Image.asset(
-                    "assets/intro_icons/mid_ninji.png",
-                    scale: 4,
-                  ),
+                  child: Image.asset("assets/intro/mid_ninji.png", scale: 4),
                 ),
               ),
               const SizedBox(height: 25),

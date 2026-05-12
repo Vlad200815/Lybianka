@@ -16,14 +16,14 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool notificationSwitch = true;
-  bool allowAnalitics = true;
+  bool _notificationSwitch = true;
+  bool _allowAnalytics = true;
 
-  final Uri url = Uri.parse("https://web.telegram.org/k/#@VladSemeniukPr");
+  final Uri _url = Uri.parse("https://web.telegram.org/k/#@VladSemeniukPr");
 
-  Future<void> launchTelegramUrl() async {
-    if (!await launchUrl(url)) {
-      throw Exception("Could not launch $url");
+  Future<void> _launchTelegramUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception("Could not launch $_url");
     }
   }
 
@@ -152,20 +152,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               MySwitch(
                 text: "Повідомлення",
-                value: notificationSwitch,
+                value: _notificationSwitch,
                 onChanged: (value) {
                   setState(() {
-                    notificationSwitch = value;
+                    _notificationSwitch = value;
                     Navigator.pushNamed(context, "/settings/screamer");
                   });
                 },
               ),
               MySwitch(
                 text: "Нотиіфкації",
-                value: allowAnalitics,
+                value: _allowAnalytics,
                 onChanged: (value) {
                   setState(() {
-                    allowAnalitics = value;
+                    _allowAnalytics = value;
                     Navigator.pushNamed(context, "/settings/screamer2");
                   });
                 },
@@ -175,9 +175,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 icon: Icon(Icons.door_front_door, color: Colors.red, size: 30),
                 text: "Видалити все",
                 onPressed: () async {
+                  final navigator = Navigator.of(context);
                   final preferences = await SharedPreferences.getInstance();
                   await preferences.clear();
-                  Navigator.of(context).pushNamedAndRemoveUntil(
+                  navigator.pushNamedAndRemoveUntil(
                     '/',
                     (Route<dynamic> route) => false,
                   );
@@ -186,9 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               MyTile(
                 icon: Icon(Icons.telegram, color: Colors.blue, size: 30),
                 text: "Повідомити про баг",
-                onPressed: () async {
-                  await launchUrl(url);
-                },
+                onPressed: () async => await launchUrl(_url),
               ),
             ],
           ),

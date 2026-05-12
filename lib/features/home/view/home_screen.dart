@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +23,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = FlipCardController();
 
-  DateTime _selectedDate = DateTime.now();
+  final DateTime _selectedDate = DateTime.now();
   File? _image;
 
-  void loadImage() async {
+  void _loadImage() async {
     final String fileName = "the_image.jpg";
     final String path = (await getApplicationDocumentsDirectory()).path;
 
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _image = File("$path/$fileName");
       });
-      print(
+      debugPrint(
         "---------------------------Reloads Aim Image-----------------------------",
       );
     }
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<SettingsBloc>().add(OnGetProfileEvent());
     context.read<AimCategoryBloc>().add(OnGetAimCategoryEvent());
     context.read<IntroBloc>().add(OnGetNameEvent());
-    loadImage();
+    _loadImage();
     context.read<IncomeCubit>().loadWeekData();
   }
 
@@ -380,7 +381,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              ///Graph----------->>>>>>>>>>>>>>>>>>>>>>>>>>>>
+              ///Graph
               BlocBuilder<IncomeCubit, IncomeCubitState>(
                 builder: (context, state) {
                   return Container(

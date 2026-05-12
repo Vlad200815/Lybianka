@@ -6,13 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
 import 'package:lybianka/blocs/income_cubit/income_cubit.dart';
+import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:lybianka/blocs/settings_bloc/theme_cubit/theme_cubit.dart';
 import 'package:lybianka/features/add_money/widgets/widgets.dart';
-import 'package:lybianka/blocs/category_bloc/category_bloc.dart';
-import 'package:lybianka/blocs/money_bloc/money_bloc.dart';
 import 'package:lybianka/repositories/graphic_repository/model/income_entry_model.dart';
 import 'package:uuid/uuid.dart';
+
 import '../../widgets/widgets.dart';
 
 class AddMoneyScreen extends StatefulWidget {
@@ -31,51 +32,41 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
 
   DateTime now = DateTime.now();
 
-  Color pickerColor = Color.fromARGB(255, 255, 255, 255);
-  Color currentColor = Color(0xff443a49);
-  bool isProfit = false;
-  bool isExpanse = false;
-  // Color colors = Color(4292352281);
+  Color _pickerColor = Color.fromARGB(255, 255, 255, 255);
+  Color _currentColor = Color(0xff443a49);
+  bool _isProfit = false;
+  bool _isExpanse = false;
 
-  List<String> berries = [
-    "assets/berries/money.png",
-    "assets/berries/strabbery.png",
-    // "assets/berries/blue_berries.png",
-    // "assets/berries/cherry.png",
-    // "assets/berries/chily.png",
-    // "assets/berries/cucumber.png",
-    // "assets/berries/green_apple.png",
-    // "assets/berries/mushroom.png",
-    // "assets/berries/pear.png",
-    "assets/berries/pitch.png",
-    // "assets/berries/red_apple.png",
-    // "assets/berries/tomato.png",
-    "assets/berries/banana.png",
-    "assets/berries/love.png",
-    "assets/berries/nails.png",
-    "assets/berries/teaching.png",
-    "assets/berries/trevel.png",
-    "assets/berries/cart.png",
-    "assets/berries/casino.png",
-    "assets/berries/key.png",
-    "assets/berries/mountain.png",
+  final String DATE_FORMAT_TYPE = 'dd/MM/yyyy';
+
+  final List<String> _categories = [
+    "assets/categories/money.png",
+    "assets/categories/strawberry.png",
+    "assets/categories/pitch.png",
+    "assets/categories/banana.png",
+    "assets/categories/love.png",
+    "assets/categories/nails.png",
+    // "assets/categories/teaching.png",
+    "assets/categories/travel.png",
+    "assets/categories/cart.png",
+    "assets/categories/casino.png",
+    "assets/categories/key.png",
+    "assets/categories/mountain.png",
   ];
 
   bool isProgress = false;
   final _formKey = GlobalKey<FormState>();
-  int selectedBerry = 0;
+  int _selectedCategory = 0;
 
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
+  void changeColor(Color color) => setState(() => _pickerColor = color);
 
   @override
   void initState() {
     super.initState();
-    String formttedDate = DateFormat('dd/MM/yyyy').format(now);
-    _dateFieldController.text = formttedDate;
+    final String formatedDate = DateFormat(DATE_FORMAT_TYPE).format(now);
+    _dateFieldController.text = formatedDate;
     if (context.read<ThemeCubit>().state.brightness == Brightness.dark) {
-      pickerColor = Colors.black;
+      _pickerColor = Colors.black;
     }
   }
 
@@ -91,7 +82,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
 
   void showBerryPickerDialog(BuildContext context) {
     final theme = Theme.of(context);
-    int tempSelectedBerry = selectedBerry;
+    int tempSelectedBerry = _selectedCategory;
     showCupertinoDialog(
       context: context,
       builder: (context) {
@@ -109,7 +100,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
               content: SizedBox(
                 height: 175,
                 child: GridView.builder(
-                  itemCount: berries.length,
+                  itemCount: _categories.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                   ),
@@ -132,7 +123,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                             ),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Image.asset(berries[index], scale: 12),
+                          child: Image.asset(_categories[index], scale: 12),
                         ),
                       ),
                     );
@@ -143,11 +134,11 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                 CupertinoButton(
                   onPressed: () {
                     setState(() {
-                      selectedBerry = tempSelectedBerry;
-                      _iconFieldController.text = berries[selectedBerry]
+                      _selectedCategory = tempSelectedBerry;
+                      _iconFieldController.text = _categories[_selectedCategory]
                           .substring(
-                            berries[selectedBerry].lastIndexOf('/') + 1,
-                            berries[selectedBerry].lastIndexOf('.'),
+                            _categories[_selectedCategory].lastIndexOf('/') + 1,
+                            _categories[_selectedCategory].lastIndexOf('.'),
                           )
                           .replaceAll("_", " ");
                     });
@@ -227,7 +218,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.green,
-                            border: isProfit
+                            border: _isProfit
                                 ? Border.all(
                                     color: theme.colorScheme.onSurface,
                                     width: 3,
@@ -237,8 +228,8 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                isProfit = true;
-                                isExpanse = false;
+                                _isProfit = true;
+                                _isExpanse = false;
                               });
                             },
                             child: Center(
@@ -260,7 +251,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.red,
-                            border: isExpanse
+                            border: _isExpanse
                                 ? Border.all(
                                     color: theme.colorScheme.onSurface,
                                     width: 3,
@@ -270,8 +261,8 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                isProfit = false;
-                                isExpanse = true;
+                                _isProfit = false;
+                                _isExpanse = true;
                               });
                             },
                             child: Center(
@@ -319,17 +310,19 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                           color: theme.colorScheme.outline,
                         ),
                       ),
-                      icon: Image.asset(berries[selectedBerry], scale: 15),
+                      icon: Image.asset(
+                        _categories[_selectedCategory],
+                        scale: 15,
+                      ),
                     ),
                     MyTextField(
-                      fillColor: pickerColor,
+                      fillColor: _pickerColor,
                       readOnly: true,
                       onTap: () {
                         showDialog(
                           barrierDismissible: false,
                           context: context,
                           builder: (context) {
-                            //TODO fix the problem with the cross inside ColorPicker
                             return SingleChildScrollView(
                               child: Dialog(
                                 shape: RoundedRectangleBorder(
@@ -348,7 +341,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                       ),
                                       const SizedBox(height: 16),
                                       ColorPicker(
-                                        pickerColor: pickerColor,
+                                        pickerColor: _pickerColor,
                                         onColorChanged: changeColor,
                                       ),
                                       const SizedBox(height: 16),
@@ -356,10 +349,10 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                         child: const Text('Got it'),
                                         onPressed: () {
                                           debugPrint(
-                                            "--------------------${pickerColor.value}-------------------------",
+                                            "--------------------${_pickerColor.toARGB32()}-------------------------",
                                           );
                                           setState(
-                                            () => currentColor = pickerColor,
+                                            () => _currentColor = _pickerColor,
                                           );
                                           Navigator.of(context).pop();
                                         },
@@ -406,7 +399,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                       child: isProgress == false
                           ? GradientButton(
                               onPressed: () async {
-                                if (!isProfit && !isExpanse) {
+                                if (!_isProfit && !_isExpanse) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
@@ -445,11 +438,11 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                   context.read<CategoryBloc>().add(
                                     OnSaveCategoryEvent(
                                       id: id,
-                                      isProfit: isProfit,
+                                      isProfit: _isProfit,
                                       money: money,
                                       description: _whatJobFieldController.text,
-                                      icon: berries[selectedBerry],
-                                      color: pickerColor.value,
+                                      icon: _categories[_selectedCategory],
+                                      color: _pickerColor.toARGB32(),
                                       date: _dateFieldController.text,
                                     ),
                                   );
@@ -460,7 +453,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                     OnGetMoneyEvent(),
                                   );
 
-                                  if (isProfit) {
+                                  if (_isProfit) {
                                     context.read<IncomeCubit>().saveIncomeEntry(
                                       IncomeEntry(date: now, amount: money),
                                     );

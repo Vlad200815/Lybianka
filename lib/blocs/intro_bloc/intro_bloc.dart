@@ -33,7 +33,7 @@ class IntroBloc extends Bloc<IntroEvent, IntroState> {
 
     on<OnIsSeenIntroEvent>((event, emit) async {
       try {
-        bool isSeen = await introRepo.hasIntroSeen();
+        bool isSeen = introRepo.hasIntroSeen();
         emit(IntroIsSeenSuccessState(isSeen: isSeen));
       } catch (e) {
         log(e.toString());
